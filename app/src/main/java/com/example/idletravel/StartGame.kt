@@ -14,8 +14,6 @@ import com.example.idletravel.area.Area
 import com.example.idletravel.area.maps.grasslandArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
-import com.example.idletravel.customItem.items.garbageItem
-import com.example.idletravel.customItem.items.softTwigsItem
 import com.example.idletravel.format.formatButton
 import com.example.idletravel.format.formatTextView
 import com.example.idletravel.format.formatView
@@ -24,8 +22,8 @@ import com.example.idletravel.player.Player
 import com.example.idletravel.travel.Travel
 import com.example.idletravel.widgetsList.WidgetsList
 import kotlinx.android.synthetic.main.activity_start_game.*
+import java.text.DateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class StartGame : AppCompatActivity() {
@@ -54,11 +52,6 @@ class StartGame : AppCompatActivity() {
         mainViewOptionList[4] to playerWidgetsList,
         mainViewOptionList[5] to systemWidgetsList
     )
-
-    private val travelList: MutableList<Area> = ArrayList()
-
-    var player: Player = Player("debug", "debug", 65535)
-    // 初始化, 反正后面也要获取
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -334,6 +327,26 @@ class StartGame : AppCompatActivity() {
         )
         // TODO:取消队列相关
     }
+
+    fun createTravelLogView(message: String){
+        val dateFormat: DateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA)
+        val time:String = dateFormat.format(Date())
+
+
+        val travelTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+            text = "[$time]: $message",
+            textSize = 30F
+        )
+
+        startGameMainLayout.addView(travelTextView)
+
+        travelLogWidgetsList.widgetsList.add(travelTextView)
+    }
 }
 
 fun inverseVisibility(view: View): Int {
@@ -350,3 +363,6 @@ var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
 // 用于更新视图
 // list中, 0为布局, 1为物品名称TextView, 2为物品数量TextView
 var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
+
+
+var player: Player = Player("debug", "debug", 65535)
