@@ -37,8 +37,9 @@ class Travel constructor(
                 item[dropItem] = 1
             }else{
                 item.replace(dropItem, value+1)
-
             }
+
+            // TODO: 接个更新物品ui操作
         }
     }
 
