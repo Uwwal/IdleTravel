@@ -14,6 +14,8 @@ import com.example.idletravel.area.Area
 import com.example.idletravel.area.maps.grasslandArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
+import com.example.idletravel.customItem.items.garbageItem
+import com.example.idletravel.customItem.items.softTwigsItem
 import com.example.idletravel.format.formatButton
 import com.example.idletravel.format.formatTextView
 import com.example.idletravel.format.formatView
@@ -25,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_start_game.*
 
 class StartGame : AppCompatActivity() {
     private val mainViewOptionList: List<String> = listOf("日志", "物品", "地图", "队列", "人物", "系统")
+
     // 主视图选单
     private var mainViewOptionCurrent: String = mainViewOptionList[0]
     // 主视图当前选择的视图
@@ -63,10 +66,13 @@ class StartGame : AppCompatActivity() {
             itemMap = map.map
         }
 
+        itemMap[garbageItem] = 500000000
+        itemMap[softTwigsItem] = 7
+
         setStartGameButtonOnClickListener()
 
-        this.mapFillMainView()
-
+        mapFillMainView()
+        itemFillMainView()
     }
 
     private fun setStartGameButtonOnClickListener() {
@@ -224,13 +230,14 @@ class StartGame : AppCompatActivity() {
         )
 
         mapButton.setOnClickListener {
-            frameLayout.visibility = inverseVisibility(frameLayout)
-            linearLayout.visibility = inverseVisibility(linearLayout)
-            nameView.visibility = inverseVisibility(nameView)
-            informationView.visibility = inverseVisibility(informationView)
-            buttonLayout.visibility = inverseVisibility(buttonLayout)
-            finishButton.visibility = inverseVisibility(finishButton)
-            closeButton.visibility = inverseVisibility(closeButton)
+            val visible = inverseVisibility(frameLayout)
+            frameLayout.visibility = visible
+            linearLayout.visibility = visible
+            nameView.visibility = visible
+            informationView.visibility = visible
+            buttonLayout.visibility = visible
+            finishButton.visibility = visible
+            closeButton.visibility = visible
         }
 
         closeButton.setOnClickListener {
@@ -264,6 +271,54 @@ class StartGame : AppCompatActivity() {
         mapWidgetsList.widgetsList.add(mapButton)
     }
 
+    private fun itemFillMainView() {
+        for ((key, value) in itemMap) {
+            val linearLayout = formatView(
+                LinearLayout(this@StartGame),
+                LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ),
+            ) as LinearLayout
+            linearLayout.orientation = LinearLayout.HORIZONTAL
+
+            val itemTextView = formatTextView(
+                TextView(this@StartGame),
+                LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    1F
+                ),
+                text = key.name,
+                textSize = 30F
+            )
+
+            val itemCountTextView = formatTextView(
+                TextView(this@StartGame),
+                LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    1F
+                ),
+                text = value.toString(),
+                textSize = 30F
+            )
+            itemCountTextView.gravity = Gravity.END
+
+            linearLayout.addView(itemTextView)
+            linearLayout.addView(itemCountTextView)
+
+            itemWidgetsList.widgetsList.add(linearLayout)
+            itemWidgetsList.widgetsList.add(itemTextView)
+            itemWidgetsList.widgetsList.add(itemCountTextView)
+
+            itemViewMap[key] = listOf(linearLayout, itemTextView, itemCountTextView)
+
+            startGameMainLayout.addView(linearLayout)
+        }
+    }
+
+
 }
 
 fun inverseVisibility(view: View): Int {
@@ -276,3 +331,7 @@ fun inverseVisibility(view: View): Int {
 
 // 这玩意写外面因为得获取travel结果
 var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
+
+// 用于更新视图
+// list中, 0为布局, 1为物品名称TextView, 2为物品数量TextView
+var itemViewMap: MutableMap<CustomItem, List<View>> = mutableMapOf()
