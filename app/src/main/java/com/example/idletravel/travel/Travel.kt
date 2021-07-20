@@ -9,9 +9,9 @@ import com.example.idletravel.itemMap
 import com.example.idletravel.itemViewMap
 
 
-class Travel (
+class Travel(
     private val context: StartGame
-){
+) {
     private val travelList: MutableList<Area> = ArrayList() // 旅行计划
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0
@@ -25,7 +25,9 @@ class Travel (
             checkDrop(area)
 
             travel()
-        } else {
+        }
+
+        if (time == area.travelTime) {
             finishTravel()
         }
 
@@ -40,7 +42,8 @@ class Travel (
                 value = 1
                 itemMap[dropItem] = 1
             } else {
-                itemMap.replace(dropItem, value + 1)
+                value ++
+                itemMap.replace(dropItem, value)
             }
 
             // 更新ui操作
