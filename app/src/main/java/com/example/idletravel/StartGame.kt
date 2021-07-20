@@ -317,6 +317,7 @@ class StartGame : AppCompatActivity() {
         }
     }
 
+
 }
 
 fun inverseVisibility(view: View): Int {
