@@ -19,7 +19,7 @@ class CreatePlayer : AppCompatActivity() {
             val player = checkWidgetsAreFilled()
             if (player != null) {
                 val intent = Intent(this@CreatePlayer, StartGame::class.java)
-                val item= ItemMap(mutableMapOf())
+                val item = ItemMap(mutableMapOf())
                 val bundle = Bundle()
 
                 intent.putExtra("player", player)

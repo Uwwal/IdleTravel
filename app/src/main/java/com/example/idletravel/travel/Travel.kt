@@ -1,16 +1,18 @@
 package com.example.idletravel.travel
 
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.StartGame
 import com.example.idletravel.area.Area
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.itemMap
+import com.example.idletravel.itemViewMap
 
 
-class Travel constructor(
-    private val area: Area,
-    private val travelList: MutableList<Area>, // 旅行计划
-) {
+class Travel (
+    private val context: StartGame
+){
+    private val travelList: MutableList<Area> = ArrayList() // 旅行计划
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0
     private val handler = Handler()
@@ -33,14 +35,21 @@ class Travel constructor(
         if (area.checkDropsLocation(time)) {
             val dropItem: CustomItem = area.getDrops()
 
-            val value = itemMap[dropItem]
+            var value = itemMap[dropItem]
             if (value == null) {
+                value = 1
                 itemMap[dropItem] = 1
-            }else{
-                itemMap.replace(dropItem, value+1)
+            } else {
+                itemMap.replace(dropItem, value + 1)
             }
 
-            // TODO: 接个更新物品ui操作
+            // 更新ui操作
+            val itemViewList = itemViewMap[dropItem]
+            if (itemViewList == null) {
+                context.createItemView(dropItem, value)
+            } else {
+                itemViewList.itemCountTextView.text = value.toString()
+            }
         }
     }
 
@@ -51,7 +60,7 @@ class Travel constructor(
         handler.postDelayed(runnable, 1000)
     }
 
-    fun addTravelPlan() {
+    fun addTravelPlan(area: Area) {
         // 外界的入口
         travelList.add(area)
         if (!inTravel) {

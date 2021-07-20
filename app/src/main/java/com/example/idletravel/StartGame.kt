@@ -19,13 +19,18 @@ import com.example.idletravel.customItem.items.softTwigsItem
 import com.example.idletravel.format.formatButton
 import com.example.idletravel.format.formatTextView
 import com.example.idletravel.format.formatView
+import com.example.idletravel.itemView.ItemView
 import com.example.idletravel.player.Player
 import com.example.idletravel.travel.Travel
 import com.example.idletravel.widgetsList.WidgetsList
 import kotlinx.android.synthetic.main.activity_start_game.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class StartGame : AppCompatActivity() {
+    private val travel = Travel(this)
+
     private val mainViewOptionList: List<String> = listOf("日志", "物品", "地图", "队列", "人物", "系统")
 
     // 主视图选单
@@ -65,9 +70,6 @@ class StartGame : AppCompatActivity() {
             val map = bundle.get("item") as ItemMap
             itemMap = map.map
         }
-
-        itemMap[garbageItem] = 500000000
-        itemMap[softTwigsItem] = 7
 
         setStartGameButtonOnClickListener()
 
@@ -138,8 +140,6 @@ class StartGame : AppCompatActivity() {
         val width = point.x
         val height = point.y / 2
         //  TODO: 高度应该是动态的
-
-        val travel = Travel(area, travelList)
 
         val mapButton = formatButton(
             Button(this@StartGame),
@@ -252,7 +252,7 @@ class StartGame : AppCompatActivity() {
 
         finishButton.setOnClickListener {
             // 这是旅行事件入口
-            travel.addTravelPlan()
+            travel.addTravelPlan(area)
         }
 
         buttonLayout.addView(finishButton)
@@ -273,49 +273,53 @@ class StartGame : AppCompatActivity() {
 
     private fun itemFillMainView() {
         for ((key, value) in itemMap) {
-            val linearLayout = formatView(
-                LinearLayout(this@StartGame),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
-            ) as LinearLayout
-            linearLayout.orientation = LinearLayout.HORIZONTAL
-
-            val itemTextView = formatTextView(
-                TextView(this@StartGame),
-                LinearLayout.LayoutParams(
-                    0,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    1F
-                ),
-                text = key.name,
-                textSize = 30F
-            )
-
-            val itemCountTextView = formatTextView(
-                TextView(this@StartGame),
-                LinearLayout.LayoutParams(
-                    0,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    1F
-                ),
-                text = value.toString(),
-                textSize = 30F
-            )
-            itemCountTextView.gravity = Gravity.END
-
-            linearLayout.addView(itemTextView)
-            linearLayout.addView(itemCountTextView)
-
-            itemWidgetsList.widgetsList.add(linearLayout)
-            itemWidgetsList.widgetsList.add(itemTextView)
-            itemWidgetsList.widgetsList.add(itemCountTextView)
-
-            itemViewMap[key] = listOf(linearLayout, itemTextView, itemCountTextView)
-
-            startGameMainLayout.addView(linearLayout)
+            createItemView(key, value)
         }
+    }
+
+    fun createItemView(key: CustomItem, value: Int) {
+        val linearLayout = formatView(
+            LinearLayout(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+        ) as LinearLayout
+        linearLayout.orientation = LinearLayout.HORIZONTAL
+
+        val itemTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1F
+            ),
+            text = key.name,
+            textSize = 30F
+        )
+
+        val itemCountTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1F
+            ),
+            text = value.toString(),
+            textSize = 30F
+        )
+        itemCountTextView.gravity = Gravity.END
+
+        linearLayout.addView(itemTextView)
+        linearLayout.addView(itemCountTextView)
+
+        itemWidgetsList.widgetsList.add(linearLayout)
+        itemWidgetsList.widgetsList.add(itemTextView)
+        itemWidgetsList.widgetsList.add(itemCountTextView)
+
+        itemViewMap[key] = ItemView(linearLayout, itemTextView, itemCountTextView)
+
+        startGameMainLayout.addView(linearLayout)
     }
 
 
@@ -334,4 +338,4 @@ var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
 
 // 用于更新视图
 // list中, 0为布局, 1为物品名称TextView, 2为物品数量TextView
-var itemViewMap: MutableMap<CustomItem, List<View>> = mutableMapOf()
+var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
