@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_start_game.*
 import java.text.DateFormat
 import java.util.*
 
-
 class StartGame : AppCompatActivity() {
     private val travel = Travel(this)
 
@@ -58,6 +57,7 @@ class StartGame : AppCompatActivity() {
         setContentView(R.layout.activity_start_game)
 
         player = this@StartGame.intent.getSerializableExtra("player") as Player
+
         val bundle = this@StartGame.intent.extras
         if (bundle != null) {
             val map = bundle.get("item") as ItemMap
@@ -340,7 +340,7 @@ class StartGame : AppCompatActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ),
             text = "[$time]: $message",
-            textSize = 30F
+            textSize = 15F
         )
 
         startGameMainLayout.addView(travelTextView)
@@ -357,10 +357,10 @@ fun inverseVisibility(view: View): Int {
     }
 }
 
-// 这玩意写外面因为得获取travel结果
+
+
 var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
 
-// 用于更新视图
 // list中, 0为布局, 1为物品名称TextView, 2为物品数量TextView
 var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
 

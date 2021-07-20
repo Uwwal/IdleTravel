@@ -9,7 +9,6 @@ import com.example.idletravel.itemMap
 import com.example.idletravel.itemViewMap
 import com.example.idletravel.player
 
-
 class Travel(
     private val context: StartGame
 ) {
@@ -17,7 +16,6 @@ class Travel(
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0
     private val handler = Handler()
-    private val name = player.name
     private val runnable = Runnable {
         val area = this.travelList[0]
 
@@ -36,6 +34,7 @@ class Travel(
     }
 
     private fun checkDrop(area: Area) {
+        val name = player.name
         if (area.checkDropsLocation(time)) {
             val dropItem: CustomItem = area.getDrops()
 
@@ -44,7 +43,7 @@ class Travel(
                 value = 1
                 itemMap[dropItem] = 1
             } else {
-                value ++
+                value++
                 itemMap.replace(dropItem, value)
             }
 
@@ -64,13 +63,13 @@ class Travel(
     private fun travel() {
         inTravel = true
         // 每一秒都会进行一次旅行
-        context.createTravelLogView(name + "即将前往" + travelList[0].name + ".")
 
         handler.postDelayed(runnable, 1000)
     }
 
     fun addTravelPlan(area: Area) {
         // 外界的入口
+        val name = player.name
         travelList.add(area)
 
         context.createTravelLogView(name + "已经将" + area.name + "加入到旅行计划里了!")
@@ -81,6 +80,8 @@ class Travel(
     }
 
     private fun finishTravel() {
+        val name = player.name
+
         // 结束旅行
         handler.removeCallbacks(runnable)
         time = 0
@@ -94,8 +95,9 @@ class Travel(
 
         if (travelList.isNotEmpty()) {
             // 如果旅行列表非空则继续旅行
+            context.createTravelLogView(name + "即将前往" + travelList[0].name + ".")
             travel()
-        }else{
+        } else {
             context.createTravelLogView(name + "完成了目前所有的计划, 开心!")
         }
     }
