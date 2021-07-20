@@ -230,13 +230,14 @@ class StartGame : AppCompatActivity() {
         )
 
         mapButton.setOnClickListener {
-            frameLayout.visibility = inverseVisibility(frameLayout)
-            linearLayout.visibility = inverseVisibility(linearLayout)
-            nameView.visibility = inverseVisibility(nameView)
-            informationView.visibility = inverseVisibility(informationView)
-            buttonLayout.visibility = inverseVisibility(buttonLayout)
-            finishButton.visibility = inverseVisibility(finishButton)
-            closeButton.visibility = inverseVisibility(closeButton)
+            val visible = inverseVisibility(frameLayout)
+            frameLayout.visibility = visible
+            linearLayout.visibility = visible
+            nameView.visibility = visible
+            informationView.visibility = visible
+            buttonLayout.visibility = visible
+            finishButton.visibility = visible
+            closeButton.visibility = visible
         }
 
         closeButton.setOnClickListener {
