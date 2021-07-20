@@ -23,9 +23,6 @@ class Travel constructor(
 
             travel()
         } else {
-            // 这里有个旅行时间 == time的边界情况, 所以要检查
-            checkDrop(area)
-
             finishTravel()
         }
 

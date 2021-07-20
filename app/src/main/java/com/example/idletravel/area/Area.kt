@@ -14,6 +14,7 @@ class Area constructor(
 ) {
     private var totalWeight = this.sumWeight() //总权重
     private var dropsLocationList = this.getDropsLocation()
+    private var finish = false //完成标记
 
     private fun sumWeight(): Int {
         var j = 0
@@ -71,22 +72,28 @@ class Area constructor(
     }
 
     fun checkDropsLocation(locationCurrent: Int): Boolean {
-        //TODO: 我草这里有bug
-        // 数组溢出
+        if (!finish) {
+            if (locationCurrent == this.dropsLocationList[0]) {
+                this.dropsLocationList.removeAt(0)
 
-        if (locationCurrent == this.dropsLocationList[0]) {
-            this.dropsLocationList.removeAt(0)
+                if (dropsLocationList.isEmpty()) {
+                    // 防止数组溢出
+                    finish = true
+                }
 
-            reloadDropsLocationList(locationCurrent)
-
-            return true
+                return true
+            }
         }
+        reload(locationCurrent)
+
         return false
     }
 
-    private fun reloadDropsLocationList(locationCurrent: Int) {
-        if (dropsLocationList.isEmpty() && locationCurrent == travelTime) {
+    private fun reload(locationCurrent: Int) {
+        // 旅行完毕重新加载一组新的掉落位置和完成状态
+        if (locationCurrent == travelTime) {
             dropsLocationList = getDropsLocation()
+            finish = false
         }
     }
 
