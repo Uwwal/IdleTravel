@@ -81,6 +81,8 @@ class Area constructor(
                     finish = true
                 }
 
+                reload(locationCurrent)
+
                 return true
             }
         }
