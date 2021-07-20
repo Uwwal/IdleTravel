@@ -23,9 +23,6 @@ class Travel constructor(
 
             travel()
         } else {
-            // 这里有个旅行时间 == time的边界情况, 所以要检查
-            checkDrop(area)
-
             finishTravel()
         }
 
@@ -35,11 +32,14 @@ class Travel constructor(
         if (area.checkDropsLocation(time)) {
             val dropItem: CustomItem = area.getDrops()
 
-            var value = this.item[dropItem]
+            val value = this.item[dropItem]
             if (value == null) {
-                value = 1
+                item[dropItem] = 1
+            }else{
+                item.replace(dropItem, value+1)
             }
-            this.item.replace(dropItem, value)
+
+            // TODO: 接个更新物品ui操作
         }
     }
 
