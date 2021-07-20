@@ -72,6 +72,7 @@ class Area constructor(
 
     fun checkDropsLocation(locationCurrent: Int): Boolean {
         //TODO: 我草这里有bug
+        // 数组溢出
 
         if (locationCurrent == this.dropsLocationList[0]) {
             this.dropsLocationList.removeAt(0)
