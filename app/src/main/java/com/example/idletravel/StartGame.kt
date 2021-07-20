@@ -322,7 +322,18 @@ class StartGame : AppCompatActivity() {
         startGameMainLayout.addView(linearLayout)
     }
 
-
+    fun createTravelListView(area: Area){
+        val travelButton = formatButton(
+            Button(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+            text = area.name,
+            textSize = 30F
+        )
+        // TODO:取消队列相关
+    }
 }
 
 fun inverseVisibility(view: View): Int {
