@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">IdleTravel</string>
+    <string name="mainStartButtonText">Start</string>
+    <string name="mainContinueButtonText">Continue</string>
+    <string name="mainExitButtonText">Exit</string>
+    <string name="createPlayerNameTextView">名字</string>
+    <string name="createPlayerNameEditText">请输入你的名字.</string>
+    <string name="createPlayerSexTextView">性别</string>
+    <string name="createPlayerSexEditText">请输入你的性别.</string>
+    <string name="createPlayerAgeTextView">年龄</string>
+    <string name="createPlayerAgeEditText">请输入你的年龄.</string>
+    <string name="createPlayerFinishButtonText">完成</string>
+    <string name="startGameTravelLogButtonText">日志</string>
+    <string name="startGameItemButtonText">物品</string>
+    <string name="startGameMapButtonText">地图</string>
+    <string name="startGamePlayerButtonText">人物</string>
+    <string name="startGameSystemButtonText">系统</string>
+    <string name="startGameTravelListButtonText">队列</string>
+</resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartGame">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10">
+
+            <LinearLayout
+                android:id="@+id/startGameMainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    android:text="@string/startGameTravelLogButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameTravelLogButton"/>
+                <Button
+                    android:text="@string/startGameItemButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameItemButton"/>
+                <Button
+                    android:text="@string/startGameMapButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameMapButton"/>
+                <Button
+                    android:text="@string/startGameTravelListButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameTravelListButton"/>
+                <Button
+                    android:text="@string/startGamePlayerButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGamePlayerButton"/>
+                <Button
+                    android:text="@string/startGameSystemButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameSystemButton"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
