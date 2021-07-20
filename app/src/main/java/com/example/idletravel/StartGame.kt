@@ -1,7 +1,9 @@
 package com.example.idletravel
 
 import android.graphics.Point
+import android.opengl.Visibility
 import android.os.Bundle
+import android.text.Layout
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -131,8 +133,6 @@ class StartGame : AppCompatActivity() {
         val point = Point()
         defaultDisplay.getSize(point)
         val width = point.x
-        val height = point.y / 2
-        //  TODO: 高度应该是动态的
 
         val mapButton = formatButton(
             Button(this@StartGame),
@@ -147,16 +147,14 @@ class StartGame : AppCompatActivity() {
             mapButton.visibility = View.VISIBLE
         }
 
-        val frameParams: LinearLayout.LayoutParams =
+        val baseLayout = formatView(
+            LinearLayout(this@StartGame),
             LinearLayout.LayoutParams(
                 width,
-                height
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
-        frameParams.gravity = Gravity.CENTER
-        val frameLayout = formatView(
-            FrameLayout(this@StartGame),
-            frameParams
-        ) as FrameLayout
+        ) as LinearLayout
+        baseLayout.orientation = LinearLayout.VERTICAL
 
         val linearLayout = formatView(
             LinearLayout(this@StartGame),
@@ -168,27 +166,14 @@ class StartGame : AppCompatActivity() {
         linearLayout.orientation = LinearLayout.VERTICAL
 
 
-        val nameView = formatTextView(
-            TextView(this@StartGame),
-            LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                0,
-                2F
-            ),
-            text = area.name,
-            textSize = 50F
-        )
-        nameView.gravity = Gravity.CENTER
-
         val informationView = formatTextView(
             TextView(this@StartGame),
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                0,
-                4F
+                ViewGroup.LayoutParams.WRAP_CONTENT
             ),
-            text = area.information,
-            textSize = 30F
+            text = "        " + area.information,
+            textSize = 15F
         )
         informationView.gravity = ViewGroup.TEXT_ALIGNMENT_CENTER
 
@@ -196,8 +181,7 @@ class StartGame : AppCompatActivity() {
             LinearLayout(this@StartGame),
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                0,
-                1F
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
         ) as LinearLayout
         buttonLayout.orientation = LinearLayout.HORIZONTAL
@@ -223,10 +207,9 @@ class StartGame : AppCompatActivity() {
         )
 
         mapButton.setOnClickListener {
-            val visible = inverseVisibility(frameLayout)
-            frameLayout.visibility = visible
+            val visible = inverseVisibility(baseLayout)
+            baseLayout.visibility = visible
             linearLayout.visibility = visible
-            nameView.visibility = visible
             informationView.visibility = visible
             buttonLayout.visibility = visible
             finishButton.visibility = visible
@@ -234,9 +217,8 @@ class StartGame : AppCompatActivity() {
         }
 
         closeButton.setOnClickListener {
-            frameLayout.visibility = View.GONE
+            baseLayout.visibility = View.GONE
             linearLayout.visibility = View.GONE
-            nameView.visibility = View.GONE
             informationView.visibility = View.GONE
             buttonLayout.visibility = View.GONE
             finishButton.visibility = View.GONE
@@ -251,14 +233,13 @@ class StartGame : AppCompatActivity() {
         buttonLayout.addView(finishButton)
         buttonLayout.addView(closeButton)
 
-        linearLayout.addView(nameView)
         linearLayout.addView(informationView)
         linearLayout.addView(buttonLayout)
 
-        frameLayout.addView(linearLayout)
+        baseLayout.addView(linearLayout)
 
         startGameMainLayout.addView(mapButton)
-        startGameMainLayout.addView(frameLayout)
+        startGameMainLayout.addView(baseLayout)
 
         // 注意这里
         mapWidgetsList.widgetsList.add(mapButton)
@@ -271,12 +252,15 @@ class StartGame : AppCompatActivity() {
     }
 
     fun createItemView(key: CustomItem, value: Int) {
+        val visibility: Int = getVisibilityWithMainViewOptionCurrent("物品")
+
         val linearLayout = formatView(
             LinearLayout(this@StartGame),
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ),
+            visibility
         ) as LinearLayout
         linearLayout.orientation = LinearLayout.HORIZONTAL
 
@@ -287,6 +271,7 @@ class StartGame : AppCompatActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1F
             ),
+            visibility,
             text = key.name,
             textSize = 30F
         )
@@ -298,6 +283,7 @@ class StartGame : AppCompatActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1F
             ),
+            visibility,
             text = value.toString(),
             textSize = 30F
         )
@@ -315,23 +301,34 @@ class StartGame : AppCompatActivity() {
         startGameMainLayout.addView(linearLayout)
     }
 
-    fun createTravelListView(area: Area){
+    fun createTravelListView(area: Area) {
+        val visibility: Int = getVisibilityWithMainViewOptionCurrent("队列")
+
         val travelButton = formatButton(
             Button(this@StartGame),
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
             ),
+            visibility,
             text = area.name,
             textSize = 30F
         )
         // TODO:取消队列相关
     }
 
-    fun createTravelLogView(message: String){
-        val dateFormat: DateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA)
-        val time:String = dateFormat.format(Date())
+    private fun getVisibilityWithMainViewOptionCurrent(targetOption: String) =
+        if (mainViewOptionCurrent == targetOption) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
+    fun createTravelLogView(message: String) {
+        val dateFormat: DateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA)
+        val time: String = dateFormat.format(Date())
+
+        val visibility: Int = getVisibilityWithMainViewOptionCurrent("日志")
 
         val travelTextView = formatTextView(
             TextView(this@StartGame),
@@ -339,6 +336,7 @@ class StartGame : AppCompatActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ),
+            visibility,
             text = "[$time]: $message",
             textSize = 15F
         )
@@ -356,8 +354,6 @@ fun inverseVisibility(view: View): Int {
         View.VISIBLE
     }
 }
-
-
 
 var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
 
