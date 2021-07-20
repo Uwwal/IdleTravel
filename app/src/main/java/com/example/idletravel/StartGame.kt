@@ -50,19 +50,17 @@ class StartGame : AppCompatActivity() {
     private val travelList: MutableList<Area> = ArrayList()
 
     var player: Player = Player("debug", "debug", 65535)
-    var item: MutableMap<CustomItem, Int> = mutableMapOf()
     // 初始化, 反正后面也要获取
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_game)
 
-
         player = this@StartGame.intent.getSerializableExtra("player") as Player
         val bundle = this@StartGame.intent.extras
         if (bundle != null) {
             val map = bundle.get("item") as ItemMap
-            item = map.map
+            itemMap = map.map
         }
 
         setStartGameButtonOnClickListener()
@@ -135,7 +133,7 @@ class StartGame : AppCompatActivity() {
         val height = point.y / 2
         //  TODO: 高度应该是动态的
 
-        val travel = Travel(area, travelList, item)
+        val travel = Travel(area, travelList)
 
         val mapButton = formatButton(
             Button(this@StartGame),
@@ -275,3 +273,6 @@ fun inverseVisibility(view: View): Int {
         View.VISIBLE
     }
 }
+
+// 这玩意写外面因为得获取travel结果
+var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()

@@ -1,14 +1,15 @@
 package com.example.idletravel.travel
 
 import android.os.Handler
+import com.example.idletravel.StartGame
 import com.example.idletravel.area.Area
 import com.example.idletravel.customItem.CustomItem
+import com.example.idletravel.itemMap
 
 
 class Travel constructor(
     private val area: Area,
     private val travelList: MutableList<Area>, // 旅行计划
-    private val item: MutableMap<CustomItem, Int>,
 ) {
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0
@@ -32,11 +33,11 @@ class Travel constructor(
         if (area.checkDropsLocation(time)) {
             val dropItem: CustomItem = area.getDrops()
 
-            val value = this.item[dropItem]
+            val value = itemMap[dropItem]
             if (value == null) {
-                item[dropItem] = 1
+                itemMap[dropItem] = 1
             }else{
-                item.replace(dropItem, value+1)
+                itemMap.replace(dropItem, value+1)
             }
 
             // TODO: 接个更新物品ui操作
