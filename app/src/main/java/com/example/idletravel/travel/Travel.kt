@@ -32,11 +32,12 @@ class Travel constructor(
         if (area.checkDropsLocation(time)) {
             val dropItem: CustomItem = area.getDrops()
 
-            var value = this.item[dropItem]
+            val value = this.item[dropItem]
             if (value == null) {
-                value = 1
+                item[dropItem] = 1
+            }else{
+                item.replace(dropItem, value+1)
             }
-            this.item.replace(dropItem, value)
         }
     }
 
