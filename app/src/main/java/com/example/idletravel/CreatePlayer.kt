@@ -11,9 +11,19 @@ import kotlinx.android.synthetic.main.activity_create_player.*
 
 
 class CreatePlayer : AppCompatActivity() {
+    private val status: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0)
+    // 力量 体质 灵巧 感知 学识 意志 魔力 魅力
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_player)
+
+        rollStatus()
+
+        createPlayerRollButton.setOnClickListener {
+            rollStatus()
+        }
 
         createPlayerFinishButton.setOnClickListener {
             val player = checkWidgetsAreFilled()
@@ -31,12 +41,27 @@ class CreatePlayer : AppCompatActivity() {
         }
     }
 
+    private fun rollStatus() {
+        for (i in status.indices) {
+            status[i] = randStatus()
+        }
+
+        val string =
+                    "   力量: " + status[0] + "   体质: " + status[1] +
+                    "   灵巧: " + status[2] + "   感知: " + status[3] + "\n" +
+                    "   学识: " + status[4] + "   意志: " + status[5] +
+                    "   魔力: " + status[6] + "   魅力: " + status[7]
+        createPlayerStatusTextView.text = string
+    }
+
+    private fun randStatus() = (Math.random() * 9 + 1).toInt()
+
     private fun checkWidgetsAreFilled(): Player? {
         // 必须都填满了才能返回
         val name = createPlayerNameEditText.checkBlank() ?: return null
         val sex = createPlayerSexEditText.checkBlank() ?: return null
         val age = createPlayerAgeEditText.checkBlank() ?: return null
-        return Player(name, sex, age.toInt())
+        return Player(name, sex, age.toInt(), status)
     }
 
     private fun TextView.checkBlank(): String? {
