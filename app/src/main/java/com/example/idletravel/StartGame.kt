@@ -312,6 +312,7 @@ class StartGame : AppCompatActivity() {
             textSize = 30F
         )
         // TODO:取消队列相关
+
     }
 
     private fun getVisibilityWithMainViewOptionCurrent(targetOption: String) =
