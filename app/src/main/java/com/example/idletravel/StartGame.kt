@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.area.Area
 import com.example.idletravel.area.maps.grasslandArea
+import com.example.idletravel.area.maps.desertArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
 import com.example.idletravel.format.formatButton
@@ -112,18 +113,7 @@ class StartGame : AppCompatActivity() {
         // TODO: 待完善
         createMapView(grasslandArea)
         createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
-        createMapView(grasslandArea)
+        createMapView(desertArea)
     }
 
     private fun createMapView(area: Area) {
