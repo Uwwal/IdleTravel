@@ -61,3 +61,7 @@ val formatPlayerStatusTextEightLines: (List<Int>) -> String = { status ->
             "魔力:   " + status[6] + "\n" +
             "魅力:   " + status[7]
 }
+
+
+const val areaInformationBlank = "        "
+// 段落开头的空格占位

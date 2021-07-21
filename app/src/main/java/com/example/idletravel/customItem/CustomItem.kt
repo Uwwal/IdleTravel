@@ -1,7 +1,12 @@
 package com.example.idletravel.customItem
 
+import com.example.idletravel.format.areaInformationBlank
+
 class CustomItem constructor(
-    val id:Int,
-    val information:String,
+    var information:String,
     val name:String
-)
+){
+    init {
+        information = areaInformationBlank+information
+    }
+}

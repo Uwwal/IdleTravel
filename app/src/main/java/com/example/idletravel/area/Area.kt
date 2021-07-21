@@ -2,16 +2,22 @@ package com.example.idletravel.area
 
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.items.garbageItem
+import com.example.idletravel.format.areaInformationBlank
 
 class Area constructor(
     val name: String,
-    val information: String,
+    var information: String,
     val travelTime: Int, // 旅行时间
     private val dropsMap: Map<CustomItem, () -> Boolean>, // 掉落物检查表, value值是个lambda
     private val dropsNumber: Int, // 掉落量
     private val dropsWeightList: List<Int>, // 掉落物权重
     private val dropsList: List<CustomItem> // 掉落物列表 和掉落物权重index相同
 ) {
+    init {
+        // 添加段落开头空格
+        information = areaInformationBlank + information
+    }
+
     private var totalWeight = this.sumWeight() //总权重
     private var dropsLocationList = this.getDropsLocation()
     private var finish = false //完成标记
@@ -100,6 +106,3 @@ class Area constructor(
     }
 
 }
-
-const val areaInformationBlank = "        "
-// 段落开头的空格占位

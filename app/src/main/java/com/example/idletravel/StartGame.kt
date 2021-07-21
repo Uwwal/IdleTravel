@@ -1,6 +1,5 @@
 package com.example.idletravel
 
-import android.graphics.Point
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.area.Area
 import com.example.idletravel.area.maps.grasslandArea
-import com.example.idletravel.area.maps.desertArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
 import com.example.idletravel.format.*
@@ -171,16 +169,10 @@ class StartGame : AppCompatActivity() {
 
     private fun mapFillMainView() {
         createMapView(grasslandArea)
-        createMapView(desertArea)
     }
 
     private fun createMapView(area: Area) {
         // 地图选单特有创建
-        val defaultDisplay = windowManager.defaultDisplay
-        val point = Point()
-        defaultDisplay.getSize(point)
-        val width = point.x
-
         val mapButton = formatButton(
             Button(this@StartGame),
             LinearLayout.LayoutParams(
@@ -197,7 +189,7 @@ class StartGame : AppCompatActivity() {
         val baseLayout = formatView(
             LinearLayout(this@StartGame),
             LinearLayout.LayoutParams(
-                width,
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
         ) as LinearLayout
@@ -334,6 +326,33 @@ class StartGame : AppCompatActivity() {
             text = value.toString(),
             textSize = 30F
         )
+
+        val baseLayout = formatView(
+            LinearLayout(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        ) as LinearLayout
+        baseLayout.orientation = LinearLayout.VERTICAL
+
+        val itemInformationTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+            ),
+            visibility,
+            text = key.information,
+            textSize = 15F
+        )
+
+        itemTextView.setOnClickListener{
+            val temVisibility: Int = inverseVisibility(baseLayout)
+            baseLayout.visibility = temVisibility
+            itemInformationTextView.visibility = temVisibility
+        }
+
         itemCountTextView.gravity = Gravity.END
 
         linearLayout.addView(itemTextView)
@@ -345,7 +364,10 @@ class StartGame : AppCompatActivity() {
 
         itemViewMap[key] = ItemView(linearLayout, itemTextView, itemCountTextView)
 
+        baseLayout.addView(itemInformationTextView)
+
         startGameMainLayout.addView(linearLayout)
+        startGameMainLayout.addView(baseLayout)
     }
 
     fun createTravelListView(area: Area) {
@@ -416,7 +438,7 @@ class StartGame : AppCompatActivity() {
         travelLogWidgetsList.widgetsList.add(travelTextView)
     }
 
-    fun removeTravelButton(travelButton: TravelListButton, ){
+    fun removeTravelButton(travelButton: TravelListButton){
         startGameMainLayout.removeView(travelButton)
         adjustTravelListButtonListIndex(travelButton.index)
     }

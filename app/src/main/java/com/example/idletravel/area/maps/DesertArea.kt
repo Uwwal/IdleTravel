@@ -1,5 +1,8 @@
 package com.example.idletravel.area.maps
 
+/*
+出现过早
+应该先完善前面部分
 import com.example.idletravel.area.Area
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.items.garbageItem
@@ -20,3 +23,4 @@ val desertArea = Area(
     dropsWeightList,
     dropsList
 )
+*/
