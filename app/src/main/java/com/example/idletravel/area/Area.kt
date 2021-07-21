@@ -57,12 +57,16 @@ class Area constructor(
         // 根据权重获取掉落物
         // [1,2,3] -> 1: [1,2) 2: [2,4) 3:[4,7)
         val rand: Int = (Math.random() * (this.totalWeight + 1)).toInt() + 1
-        var leftLimit = dropsWeightList[0]
-        var rightLimit = leftLimit
+        var leftLimit: Int
+        var rightLimit = 0
         var drop: CustomItem = garbageItem
 
         for (i in dropsWeightList.indices) {
-            leftLimit = rightLimit
+            if(i == 0){
+                leftLimit = 1
+            }else{
+                leftLimit = rightLimit
+            }
             rightLimit += dropsWeightList[i]
 
             if (rand in leftLimit until rightLimit) {
