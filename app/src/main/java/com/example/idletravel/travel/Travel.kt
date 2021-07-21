@@ -9,7 +9,7 @@ import com.example.idletravel.customItem.CustomItem
 class Travel(
     private val context: StartGame
 ) {
-    private val travelList: MutableList<Area> = ArrayList() // 旅行计划
+    val travelList: MutableList<Area> = ArrayList() // 旅行计划
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0
     private val handler = Handler()
@@ -90,9 +90,6 @@ class Travel(
 
         context.removeTravelButton(travelListButtonList[0])
 
-        travelList.removeAt(0)
-
-
         context.createTravelLogView(name + "正在查看下一个旅行计划...")
 
         if (travelList.isNotEmpty()) {
@@ -103,4 +100,5 @@ class Travel(
             context.createTravelLogView(name + "完成了目前所有的计划, 开心!")
         }
     }
+
 }

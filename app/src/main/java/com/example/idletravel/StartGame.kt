@@ -315,13 +315,18 @@ class StartGame : AppCompatActivity() {
         ) as TravelListButton
 
         travelButton.setOnClickListener {
-            val areaName = travelButton.text
+            val index = travelButton.index
 
-            startGameMainLayout.removeView(travelButton)
+            if(index != 0){
+                // 不能取消正在旅行的计划
 
-            createTravelLogView(player.name+"已经把"+areaName+"从计划里移除了!")
+                val areaName = travelButton.text
+                startGameMainLayout.removeView(travelButton)
 
-            removeTravelButton(travelButton)
+                createTravelLogView(player.name+"已经把"+areaName+"从计划里移除了!")
+
+                removeTravelButton(travelButton)
+            }
 
         }
 
@@ -374,6 +379,8 @@ class StartGame : AppCompatActivity() {
     private fun adjustTravelListButtonListIndex(
         index: Int
     ) {
+        travel.travelList.removeAt(index)
+
         travelListButtonList.removeAt(index)
         travelListWidgetsList.widgetsList.removeAt(index)
 
