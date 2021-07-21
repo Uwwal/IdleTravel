@@ -89,7 +89,6 @@ class Travel(
         context.createTravelLogView(name + "刚刚在" + travelList[0].name + "旅行完了.")
 
         context.removeTravelButton(travelListButtonList[0])
-        travelListButtonList.removeAt(0)
 
         travelList.removeAt(0)
 

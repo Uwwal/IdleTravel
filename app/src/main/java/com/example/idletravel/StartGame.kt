@@ -375,7 +375,7 @@ class StartGame : AppCompatActivity() {
         index: Int
     ) {
         travelListButtonList.removeAt(index)
-
+        travelListWidgetsList.widgetsList.removeAt(index)
 
         for (i in index until travelListButtonList.size) {
             travelListButtonList[i].index--
@@ -401,4 +401,3 @@ var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
 var travelListButtonList: MutableList<TravelListButton> = ArrayList()
 
 var player: Player = Player("debug", "debug", 65535)
-
