@@ -2,6 +2,7 @@ package com.example.idletravel
 
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -12,18 +13,21 @@ import com.example.idletravel.area.Area
 import com.example.idletravel.area.maps.grasslandArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
+import com.example.idletravel.databinding.ActivityMainBinding
+import com.example.idletravel.databinding.ActivityStartGameBinding
 import com.example.idletravel.format.*
 import com.example.idletravel.itemView.ItemView
 import com.example.idletravel.player.Player
 import com.example.idletravel.travel.Travel
 import com.example.idletravel.travelListButton.TravelListButton
 import com.example.idletravel.widgetsList.WidgetsList
-import kotlinx.android.synthetic.main.activity_start_game.*
 import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class StartGame : AppCompatActivity() {
+    private lateinit var binding: ActivityStartGameBinding
+
     private val travel = Travel(this)
 
     private val mainViewOptionList: List<String> = listOf("日志", "物品", "地图", "队列", "人物", "系统")
@@ -55,7 +59,8 @@ class StartGame : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start_game)
+        binding = ActivityStartGameBinding.inflate(LayoutInflater.from(this@StartGame))
+        setContentView(binding.root)
 
         player = this@StartGame.intent.getSerializableExtra("player") as Player
 
@@ -73,27 +78,27 @@ class StartGame : AppCompatActivity() {
     }
 
     private fun setStartGameButtonOnClickListener() {
-        startGameTravelLogButton.setOnClickListener {
+        binding.startGameTravelLogButton.setOnClickListener {
             val mainViewOptionListIndex = 0
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
-        startGameItemButton.setOnClickListener {
+        binding.startGameItemButton.setOnClickListener {
             val mainViewOptionListIndex = 1
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
-        startGameMapButton.setOnClickListener {
+        binding.startGameMapButton.setOnClickListener {
             val mainViewOptionListIndex = 2
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
-        startGameTravelListButton.setOnClickListener {
+        binding.startGameTravelListButton.setOnClickListener {
             val mainViewOptionListIndex = 3
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
-        startGamePlayerButton.setOnClickListener {
+        binding.startGamePlayerButton.setOnClickListener {
             val mainViewOptionListIndex = 4
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
-        startGameSystemButton.setOnClickListener {
+        binding.startGameSystemButton.setOnClickListener {
             val mainViewOptionListIndex = 5
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
@@ -104,7 +109,7 @@ class StartGame : AppCompatActivity() {
         val option = mainViewOptionList[mainViewOptionListIndex]
         // option 获取一个字符串用于和当前选择视图字符串比对
         if (mainViewOptionCurrent != option) {
-            mainViewWidgetsListMap[option]?.changeMainViewContent(startGameMainLayout)
+            mainViewWidgetsListMap[option]?.changeMainViewContent(binding.startGameMainLayout)
             mainViewOptionCurrent = option
         }
     }
@@ -161,10 +166,10 @@ class StartGame : AppCompatActivity() {
         playerWidgetsList.widgetsList.add(playerAgeTextView)
         playerWidgetsList.widgetsList.add(playerStatusTextView)
 
-        startGameMainLayout.addView(playerNameTextView)
-        startGameMainLayout.addView(playerSexTextView)
-        startGameMainLayout.addView(playerAgeTextView)
-        startGameMainLayout.addView(playerStatusTextView)
+        binding.startGameMainLayout.addView(playerNameTextView)
+        binding.startGameMainLayout.addView(playerSexTextView)
+        binding.startGameMainLayout.addView(playerAgeTextView)
+        binding.startGameMainLayout.addView(playerStatusTextView)
     }
 
     private fun mapFillMainView() {
@@ -277,8 +282,8 @@ class StartGame : AppCompatActivity() {
 
         baseLayout.addView(linearLayout)
 
-        startGameMainLayout.addView(mapButton)
-        startGameMainLayout.addView(baseLayout)
+        binding.startGameMainLayout.addView(mapButton)
+        binding.startGameMainLayout.addView(baseLayout)
 
         // 注意这里
         mapWidgetsList.widgetsList.add(mapButton)
@@ -366,8 +371,8 @@ class StartGame : AppCompatActivity() {
 
         baseLayout.addView(itemInformationTextView)
 
-        startGameMainLayout.addView(linearLayout)
-        startGameMainLayout.addView(baseLayout)
+        binding.startGameMainLayout.addView(linearLayout)
+        binding.startGameMainLayout.addView(baseLayout)
     }
 
     fun createTravelListView(area: Area) {
@@ -391,7 +396,7 @@ class StartGame : AppCompatActivity() {
                 // 不能取消正在旅行的计划
 
                 val areaName = travelButton.text
-                startGameMainLayout.removeView(travelButton)
+                binding.startGameMainLayout.removeView(travelButton)
 
                 createTravelLogView(player.name+"已经把"+areaName+"从计划里移除了!")
 
@@ -406,7 +411,7 @@ class StartGame : AppCompatActivity() {
         travelListButtonList.add(travelButton)
 
         travelListWidgetsList.widgetsList.add(travelButton)
-        startGameMainLayout.addView(travelButton)
+        binding.startGameMainLayout.addView(travelButton)
     }
 
     private fun getVisibilityWithMainViewOptionCurrent(targetOption: String) =
@@ -433,13 +438,13 @@ class StartGame : AppCompatActivity() {
             textSize = 15F
         )
 
-        startGameMainLayout.addView(travelTextView)
+        binding.startGameMainLayout.addView(travelTextView)
 
         travelLogWidgetsList.widgetsList.add(travelTextView)
     }
 
     fun removeTravelButton(travelButton: TravelListButton){
-        startGameMainLayout.removeView(travelButton)
+        binding.startGameMainLayout.removeView(travelButton)
         adjustTravelListButtonListIndex(travelButton.index)
     }
 

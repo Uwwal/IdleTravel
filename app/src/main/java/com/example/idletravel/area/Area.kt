@@ -62,10 +62,10 @@ class Area constructor(
         var drop: CustomItem = garbageItem
 
         for (i in dropsWeightList.indices) {
-            if(i == 0){
-                leftLimit = 1
+            leftLimit = if(i == 0){
+                1
             }else{
-                leftLimit = rightLimit
+                rightLimit
             }
             rightLimit += dropsWeightList[i]
 
