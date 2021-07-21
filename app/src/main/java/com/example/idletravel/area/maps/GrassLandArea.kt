@@ -1,6 +1,7 @@
 package com.example.idletravel.area.maps
 
 import com.example.idletravel.area.Area
+import com.example.idletravel.area.areaInformationBlank
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.items.garbageItem
 import com.example.idletravel.customItem.items.softTwigsItem
@@ -12,7 +13,8 @@ private val dropsWeightList = listOf(2, 1)
 
 val grasslandArea = Area(
     "草地",
-    "啊嗯草地啊, 就像wym滚过的一样, 香香的, 可爱的...",
+    areaInformationBlank+ "家门口的草地, 与其说是旅行不如说是散步...\n"+
+                areaInformationBlank+ "稀稀疏疏的分布着一些灌木, 地上散落着没素质的路人留下的垃圾.",
     5,
     dropsMap,
     3,

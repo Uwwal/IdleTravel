@@ -100,3 +100,6 @@ class Area constructor(
     }
 
 }
+
+const val areaInformationBlank = "        "
+// 段落开头的空格占位

@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
+import com.example.idletravel.format.formatPlayerStatusTextTwoLines
 import com.example.idletravel.player.Player
 import kotlinx.android.synthetic.main.activity_create_player.*
 
@@ -46,12 +46,7 @@ class CreatePlayer : AppCompatActivity() {
             status[i] = randStatus()
         }
 
-        val string =
-                    "   力量: " + status[0] + "   体质: " + status[1] +
-                    "   灵巧: " + status[2] + "   感知: " + status[3] + "\n" +
-                    "   学识: " + status[4] + "   意志: " + status[5] +
-                    "   魔力: " + status[6] + "   魅力: " + status[7]
-        createPlayerStatusTextView.text = string
+        createPlayerStatusTextView.text = formatPlayerStatusTextTwoLines(status)
     }
 
     private fun randStatus() = (Math.random() * 9 + 1).toInt()

@@ -14,9 +14,7 @@ import com.example.idletravel.area.maps.grasslandArea
 import com.example.idletravel.area.maps.desertArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.ItemMap
-import com.example.idletravel.format.formatButton
-import com.example.idletravel.format.formatTextView
-import com.example.idletravel.format.formatView
+import com.example.idletravel.format.*
 import com.example.idletravel.itemView.ItemView
 import com.example.idletravel.player.Player
 import com.example.idletravel.travel.Travel
@@ -31,8 +29,8 @@ class StartGame : AppCompatActivity() {
     private val travel = Travel(this)
 
     private val mainViewOptionList: List<String> = listOf("日志", "物品", "地图", "队列", "人物", "系统")
-
     // 主视图选单
+
     private var mainViewOptionCurrent: String = mainViewOptionList[0]
     // 主视图当前选择的视图
 
@@ -54,6 +52,9 @@ class StartGame : AppCompatActivity() {
         mainViewOptionList[5] to systemWidgetsList
     )
 
+    private val playerTextView: MutableList<TextView> = ArrayList()
+    // 0=name 1=sex 2=age 3=status
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_game)
@@ -70,6 +71,7 @@ class StartGame : AppCompatActivity() {
 
         mapFillMainView()
         itemFillMainView()
+        playerFillMainView()
     }
 
     private fun setStartGameButtonOnClickListener() {
@@ -109,9 +111,65 @@ class StartGame : AppCompatActivity() {
         }
     }
 
+    private fun playerFillMainView(){
+        val visibility: Int = getVisibilityWithMainViewOptionCurrent("人物")
+
+        val playerNameTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+            visibility,
+            text = "名字:   " + player.name,
+            textSize = 30F
+        )
+
+        val playerSexTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+            visibility,
+            text = "性别:   " + player.sex,
+            textSize = 30F
+        )
+
+        val playerAgeTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+            visibility,
+            text = "年龄:   " + player.age,
+            textSize = 30F
+        )
+
+        val playerStatusTextView = formatTextView(
+            TextView(this@StartGame),
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ),
+            visibility,
+            text =  formatPlayerStatusTextEightLines(player.status),
+            textSize = 30F
+        )
+
+        playerWidgetsList.widgetsList.add(playerNameTextView)
+        playerWidgetsList.widgetsList.add(playerSexTextView)
+        playerWidgetsList.widgetsList.add(playerAgeTextView)
+        playerWidgetsList.widgetsList.add(playerStatusTextView)
+
+        startGameMainLayout.addView(playerNameTextView)
+        startGameMainLayout.addView(playerSexTextView)
+        startGameMainLayout.addView(playerAgeTextView)
+        startGameMainLayout.addView(playerStatusTextView)
+    }
+
     private fun mapFillMainView() {
-        // TODO: 待完善
-        createMapView(grasslandArea)
         createMapView(grasslandArea)
         createMapView(desertArea)
     }
@@ -161,7 +219,7 @@ class StartGame : AppCompatActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ),
-            text = "        " + area.information,
+            text = area.information,
             textSize = 15F
         )
         informationView.gravity = ViewGroup.TEXT_ALIGNMENT_CENTER
@@ -329,7 +387,6 @@ class StartGame : AppCompatActivity() {
         startGameMainLayout.addView(travelButton)
     }
 
-
     private fun getVisibilityWithMainViewOptionCurrent(targetOption: String) =
         if (mainViewOptionCurrent == targetOption) {
             View.VISIBLE
@@ -359,16 +416,12 @@ class StartGame : AppCompatActivity() {
         travelLogWidgetsList.widgetsList.add(travelTextView)
     }
 
-    fun removeTravelButton(
-        travelButton: TravelListButton,
-    ){
+    fun removeTravelButton(travelButton: TravelListButton, ){
         startGameMainLayout.removeView(travelButton)
         adjustTravelListButtonListIndex(travelButton.index)
     }
 
-    private fun adjustTravelListButtonListIndex(
-        index: Int
-    ) {
+    private fun adjustTravelListButtonListIndex(index: Int) {
         travel.travelList.removeAt(index)
 
         travelListButtonList.removeAt(index)
