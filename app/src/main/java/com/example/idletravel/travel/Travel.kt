@@ -2,12 +2,9 @@ package com.example.idletravel.travel
 
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import com.example.idletravel.StartGame
+import com.example.idletravel.*
 import com.example.idletravel.area.Area
 import com.example.idletravel.customItem.CustomItem
-import com.example.idletravel.itemMap
-import com.example.idletravel.itemViewMap
-import com.example.idletravel.player
 
 class Travel(
     private val context: StartGame
@@ -74,6 +71,8 @@ class Travel(
 
         context.createTravelLogView(name + "已经将" + area.name + "加入到旅行计划里了!")
 
+        context.createTravelListView(area)
+
         if (!inTravel) {
             travel()
         }
@@ -89,7 +88,11 @@ class Travel(
 
         context.createTravelLogView(name + "刚刚在" + travelList[0].name + "旅行完了.")
 
+        context.removeTravelButton(travelListButtonList[0])
+        travelListButtonList.removeAt(0)
+
         travelList.removeAt(0)
+
 
         context.createTravelLogView(name + "正在查看下一个旅行计划...")
 

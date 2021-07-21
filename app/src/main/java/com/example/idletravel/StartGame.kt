@@ -19,10 +19,12 @@ import com.example.idletravel.format.formatView
 import com.example.idletravel.itemView.ItemView
 import com.example.idletravel.player.Player
 import com.example.idletravel.travel.Travel
+import com.example.idletravel.travelListButton.TravelListButton
 import com.example.idletravel.widgetsList.WidgetsList
 import kotlinx.android.synthetic.main.activity_start_game.*
 import java.text.DateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StartGame : AppCompatActivity() {
     private val travel = Travel(this)
@@ -302,7 +304,7 @@ class StartGame : AppCompatActivity() {
         val visibility: Int = getVisibilityWithMainViewOptionCurrent("队列")
 
         val travelButton = formatButton(
-            Button(this@StartGame),
+            TravelListButton(this@StartGame),
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -310,10 +312,28 @@ class StartGame : AppCompatActivity() {
             visibility,
             text = area.name,
             textSize = 30F
-        )
-        // TODO:取消队列相关
+        ) as TravelListButton
 
+        travelButton.setOnClickListener {
+            val areaName = travelButton.text
+
+            startGameMainLayout.removeView(travelButton)
+
+            createTravelLogView(player.name+"已经把"+areaName+"从计划里移除了!")
+
+            removeTravelButton(travelButton)
+
+        }
+
+        travelButton.index = travelListButtonList.size
+
+
+        travelListButtonList.add(travelButton)
+
+        travelListWidgetsList.widgetsList.add(travelButton)
+        startGameMainLayout.addView(travelButton)
     }
+
 
     private fun getVisibilityWithMainViewOptionCurrent(targetOption: String) =
         if (mainViewOptionCurrent == targetOption) {
@@ -343,20 +363,42 @@ class StartGame : AppCompatActivity() {
 
         travelLogWidgetsList.widgetsList.add(travelTextView)
     }
-}
 
-fun inverseVisibility(view: View): Int {
-    return if (view.visibility == View.VISIBLE) {
-        View.GONE
-    } else {
-        View.VISIBLE
+    fun removeTravelButton(
+        travelButton: TravelListButton,
+    ){
+        startGameMainLayout.removeView(travelButton)
+        adjustTravelListButtonListIndex(travelButton.index)
+    }
+
+    private fun adjustTravelListButtonListIndex(
+        index: Int
+    ) {
+        travelListButtonList.removeAt(index)
+
+
+        for (i in index until travelListButtonList.size) {
+            travelListButtonList[i].index--
+        }
+    }
+
+    private fun inverseVisibility(view: View): Int {
+        return if (view.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
     }
 }
+
+
 
 var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
 
 // list中, 0为布局, 1为物品名称TextView, 2为物品数量TextView
 var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
 
+var travelListButtonList: MutableList<TravelListButton> = ArrayList()
 
 var player: Player = Player("debug", "debug", 65535)
+
