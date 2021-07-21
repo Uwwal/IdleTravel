@@ -16,4 +16,5 @@
     <string name="startGamePlayerButtonText">人物</string>
     <string name="startGameSystemButtonText">系统</string>
     <string name="startGameTravelListButtonText">队列</string>
+    <string name="createPlayerRollButton">重掷</string>
 </resources>
