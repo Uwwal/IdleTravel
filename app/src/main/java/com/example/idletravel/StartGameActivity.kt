@@ -42,9 +42,9 @@ class StartGameActivity : AppCompatActivity() {
     private val playerWidgetsList = WidgetsList()
     private val systemWidgetsList = WidgetsList()
 
-    // 每个视图对应一个组件列表
+    // 每个视图对应一个组件
 
-    private var playerStatusTextView: TextView = TextView(this)
+    private val playerViewList: MutableList<TextView> = ArrayList()
 
     private val mainViewWidgetsListMap: Map<String, WidgetsList> = mapOf(
         mainViewOptionList[0] to travelLogWidgetsList,
@@ -149,7 +149,7 @@ class StartGameActivity : AppCompatActivity() {
             textSize = 30F
         )
 
-        playerStatusTextView = formatTextView(
+        val playerStatusTextView = formatTextView(
             TextView(this@StartGameActivity),
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -160,11 +160,15 @@ class StartGameActivity : AppCompatActivity() {
             textSize = 30F
         )
 
-
         playerWidgetsList.widgetsList.add(playerNameTextView)
         playerWidgetsList.widgetsList.add(playerSexTextView)
         playerWidgetsList.widgetsList.add(playerAgeTextView)
         playerWidgetsList.widgetsList.add(playerStatusTextView)
+
+        playerViewList.add(playerNameTextView)
+        playerViewList.add(playerSexTextView)
+        playerViewList.add(playerAgeTextView)
+        playerViewList.add(playerStatusTextView)
 
         binding.startGameMainLayout.addView(playerNameTextView)
         binding.startGameMainLayout.addView(playerSexTextView)
@@ -173,7 +177,7 @@ class StartGameActivity : AppCompatActivity() {
     }
 
     fun updatePlayerStatusTextView(){
-        playerStatusTextView.text = formatPlayerStatusTextEightLines(player.status)
+        playerViewList[3].text = formatPlayerStatusTextEightLines(player.status)
     }
 
     private fun mapFillMainView() {
@@ -476,7 +480,6 @@ class StartGameActivity : AppCompatActivity() {
 
 var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
 
-// list中, 0为布局, 1为物品名称TextView, 2为物品数量TextView
 var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
 
 var travelListButtonList: MutableList<TravelListButton> = ArrayList()

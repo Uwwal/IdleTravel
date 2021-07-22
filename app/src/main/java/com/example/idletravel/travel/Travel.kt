@@ -48,7 +48,9 @@ class Travel(
             // 更新ui操作
             val itemViewList = itemViewMap[dropItem]
             if (itemViewList == null) {
-                context.createItemView(dropItem, value)
+                context.runOnUiThread {
+                    context.createItemView(dropItem, value)
+                }
             } else {
                 itemViewList.itemCountTextView.text = value.toString()
             }
