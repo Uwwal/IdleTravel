@@ -1,13 +1,12 @@
 package com.example.idletravel.travel
 
 import android.os.Handler
-import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.*
 import com.example.idletravel.area.Area
 import com.example.idletravel.customItem.CustomItem
 
 class Travel(
-    private val context: StartGame
+    private val context: StartGameActivity
 ) {
     val travelList: MutableList<Area> = ArrayList() // 旅行计划
     private var inTravel: Boolean = false // 旅行中
@@ -53,9 +52,26 @@ class Travel(
             } else {
                 itemViewList.itemCountTextView.text = value.toString()
             }
+
+            // 奖励点属性
+            val randStatusIndex = (Math.random() * player.status.size).toInt()
+            player.status[randStatusIndex] += bonusStatus(player.status[randStatusIndex], area)
+            context.updatePlayerStatusTextView()
         }
     }
 
+    private fun bonusStatus(status: Double, area: Area): Double {
+        if (status > area.lowerLimitOfBonusStatus && status < area.upperLimitOfBonusStatus) {
+            var finishTime: Int? = player.finishMapTime[area]
+            if (finishTime == null) {
+                finishTime = 0
+            }
+
+            return (1 / (finishTime + 5.0) * (area.travelTime / area.dropsNumber.toDouble()) + area.travelTime / 600) / 10
+            // 600是最大旅行时间
+        }
+        return 0.00
+    }
 
     private fun travel() {
         inTravel = true
@@ -86,9 +102,17 @@ class Travel(
         time = 0
         inTravel = false
 
+        val finishTime: Int? = player.finishMapTime[travelList[0]]
+        player.finishMapTime[travelList[0]] = if (finishTime == null) {
+            0
+        } else {
+            finishTime + 1
+        }
+
         context.createTravelLogView(name + "刚刚在" + travelList[0].name + "旅行完了.")
 
         context.removeTravelButton(travelListButtonList[0])
+        // 这里进行了travelList.removeAt
 
         context.createTravelLogView(name + "正在查看下一个旅行计划...")
 

@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IdleTravel">
-        <activity android:name=".StartGame" />
-        <activity android:name=".CreatePlayer" />
+        <activity android:name=".StartGameActivity" />
+        <activity android:name=".CreatePlayerActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

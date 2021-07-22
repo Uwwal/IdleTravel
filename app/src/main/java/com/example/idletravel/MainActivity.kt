@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainStartButton.setOnClickListener{
             val intent = Intent()
-            intent.setClass(this@MainActivity,CreatePlayer::class.java)
+            intent.setClass(this@MainActivity,CreatePlayerActivity::class.java)
             startActivity(intent)
         }
 

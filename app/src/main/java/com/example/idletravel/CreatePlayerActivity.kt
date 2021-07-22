@@ -6,21 +6,21 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.customItem.ItemMap
+import com.example.idletravel.customItem.items.garbageItem
 import com.example.idletravel.databinding.ActivityCreatePlayerBinding
-import com.example.idletravel.databinding.ActivityMainBinding
 import com.example.idletravel.format.formatPlayerStatusTextTwoLines
 import com.example.idletravel.player.Player
 
 
-class CreatePlayer : AppCompatActivity() {
+class CreatePlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreatePlayerBinding
-    private val status: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0)
+    var status: MutableList<Double> = mutableListOf(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00)
     // 力量 体质 灵巧 感知 学识 意志 魔力 魅力
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreatePlayerBinding.inflate(LayoutInflater.from(this@CreatePlayer))
+        binding = ActivityCreatePlayerBinding.inflate(LayoutInflater.from(this@CreatePlayerActivity))
         setContentView(binding.root)
 
         rollStatus()
@@ -32,12 +32,12 @@ class CreatePlayer : AppCompatActivity() {
         binding.createPlayerFinishButton.setOnClickListener {
             val player = checkWidgetsAreFilled()
             if (player != null) {
-                val intent = Intent(this@CreatePlayer, StartGame::class.java)
-                val item = ItemMap(mutableMapOf())
+                val intent = Intent(this@CreatePlayerActivity, StartGameActivity::class.java)
+                val item = ItemMap(mutableMapOf(garbageItem to 2))
                 val bundle = Bundle()
 
-                intent.putExtra("player", player)
                 bundle.putSerializable("item", item)
+                bundle.putSerializable("player",player)
                 intent.putExtras(bundle)
                 startActivity(intent)
 
@@ -47,7 +47,7 @@ class CreatePlayer : AppCompatActivity() {
 
     private fun rollStatus() {
         for (i in status.indices) {
-            status[i] = randStatus()
+            status[i] = randStatus().toDouble()
         }
 
         binding.createPlayerStatusTextView.text = formatPlayerStatusTextTwoLines(status)

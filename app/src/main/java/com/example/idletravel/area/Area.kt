@@ -3,16 +3,19 @@ package com.example.idletravel.area
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.customItem.items.garbageItem
 import com.example.idletravel.format.areaInformationBlank
+import java.io.Serializable
 
-class Area constructor(
+class Area(
     val name: String,
     var information: String,
-    val travelTime: Int, // 旅行时间
-    private val dropsMap: Map<CustomItem, () -> Boolean>, // 掉落物检查表, value值是个lambda
-    private val dropsNumber: Int, // 掉落量
+    val travelTime: Int, // 旅行时间 设想是从5到600
+    private val dropsMap: HashMap<CustomItem, () -> Boolean>, // 掉落物检查表, value值是个lambda
+    val dropsNumber: Int, // 掉落量 设想是从3到100
     private val dropsWeightList: List<Int>, // 掉落物权重
-    private val dropsList: List<CustomItem> // 掉落物列表 和掉落物权重index相同
-) {
+    private val dropsList: List<CustomItem>, // 掉落物列表 和掉落物权重index相同
+    val upperLimitOfBonusStatus: Int = 9, // 奖励属性上限值
+    val lowerLimitOfBonusStatus: Int = 0
+): Serializable{
     init {
         // 添加段落开头空格
         information = areaInformationBlank + information
@@ -74,6 +77,7 @@ class Area constructor(
                 break
             }
         }
+
         return if (checkDrops(drop) == true) {
             drop
         } else {

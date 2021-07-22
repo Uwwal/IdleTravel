@@ -13,8 +13,8 @@ private val dropsList = listOf(
     garbageItem, softTwigItem, berryItem, ladybugItem, longHornedBeetleItem,
     antItem, rabbitItem
 )
-private val dropsMap: Map<CustomItem, () -> Boolean> =
-    mapOf(
+private val dropsMap: HashMap<CustomItem, () -> Boolean> =
+    hashMapOf(
         garbageItem to { true },
         softTwigItem to { player.status[2] > 2 },
         berryItem to { player.status[4] > 3 },
@@ -36,5 +36,7 @@ val grasslandArea = Area(
     dropsMap,
     3,
     dropsWeightList,
-    dropsList
+    dropsList,
+    9,
+    0
 )

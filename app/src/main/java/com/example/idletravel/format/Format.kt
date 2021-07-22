@@ -43,25 +43,22 @@ fun formatButton(
     return tem
 }
 
-val formatPlayerStatusTextTwoLines: (List<Int>) -> String = { status ->
-    "   力量: " + status[0] + "   体质: " + status[1] +
-            "   灵巧: " + status[2] + "   感知: " + status[3] + "\n" +
-            "   学识: " + status[4] + "   意志: " + status[5] +
-            "   魔力: " + status[6] + "   魅力: " + status[7]
+val formatPlayerStatusTextTwoLines: (List<Double>) -> String = { status ->
+    String.format(
+        " 力量: %.0f   体质: %.0f   灵巧: %.0f   感知: %.0f\n" +
+                " 学识: %.0f   意志: %.0f   魔力: %.0f   魅力: %.0f",
+        status[0], status[1], status[2], status[3], status[4], status[5], status[6], status[7]
+    )
 }
 
 
-val formatPlayerStatusTextEightLines: (List<Int>) -> String = { status ->
-    "力量:   " + status[0] + "\n" +
-            "体质:   " + status[1] + "\n" +
-            "灵巧:   " + status[2] + "\n" +
-            "感知:   " + status[3] + "\n" +
-            "学识:   " + status[4] + "\n" +
-            "意志:   " + status[5] + "\n" +
-            "魔力:   " + status[6] + "\n" +
-            "魅力:   " + status[7]
+val formatPlayerStatusTextEightLines: (List<Double>) -> String = { status ->
+    String.format(
+        "力量:   %.2f\n体质:   %.2f\n灵巧:   %.2f\n感知:   %.2f\n" +
+                "学识:   %.2f\n意志:   %.2f\n魔力:   %.2f\n魅力:   %.2f",
+        status[0], status[1], status[2], status[3], status[4], status[5], status[6], status[7]
+    )
 }
-
 
 const val areaInformationBlank = "        "
 // 段落开头的空格占位
