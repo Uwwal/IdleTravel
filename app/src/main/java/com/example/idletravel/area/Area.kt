@@ -1,24 +1,24 @@
 package com.example.idletravel.area
 
 import com.example.idletravel.customItem.CustomItem
-import com.example.idletravel.customItem.items.garbageItem
-import com.example.idletravel.format.areaInformationBlank
+import com.example.idletravel.customItem.CustomItem.*
+import com.example.idletravel.format.informationBlank
 import java.io.Serializable
 
 class Area(
     val name: String,
     var information: String,
     val travelTime: Int, // 旅行时间 设想是从5到600
-    private val dropsMap: HashMap<CustomItem, () -> Boolean>, // 掉落物检查表, value值是个lambda
+    private val dropsMap: HashMap<String, () -> Boolean>, // 掉落物检查表, value值是个lambda
     val dropsNumber: Int, // 掉落量 设想是从3到100
     private val dropsWeightList: List<Int>, // 掉落物权重
-    private val dropsList: List<CustomItem>, // 掉落物列表 和掉落物权重index相同
+    private val dropsList: List<String>, // 掉落物列表 和掉落物权重index相同
     val upperLimitOfBonusStatus: Int = 9, // 奖励属性上限值
     val lowerLimitOfBonusStatus: Int = 0
 ): Serializable{
     init {
         // 添加段落开头空格
-        information = areaInformationBlank + information
+        information = informationBlank + information
     }
 
     private var totalWeight = this.sumWeight() //总权重
@@ -33,7 +33,7 @@ class Area(
         return j
     }
 
-    private fun checkDrops(item: CustomItem): Boolean? {
+    private fun checkDrops(item: String): Boolean? {
         return this.dropsMap[item]?.invoke()
     }
 
@@ -62,7 +62,7 @@ class Area(
         val rand: Int = (Math.random() * (this.totalWeight + 1)).toInt() + 1
         var leftLimit: Int
         var rightLimit = 0
-        var drop: CustomItem = garbageItem
+        var drop: CustomItem = GARBAGE
 
         for (i in dropsWeightList.indices) {
             leftLimit = if(i == 0){
@@ -73,15 +73,15 @@ class Area(
             rightLimit += dropsWeightList[i]
 
             if (rand in leftLimit until rightLimit) {
-                drop = dropsList[i]
+                drop = CustomItem.valueOf(dropsList[i])
                 break
             }
         }
 
-        return if (checkDrops(drop) == true) {
+        return if (checkDrops(drop.name) == true) {
             drop
         } else {
-            garbageItem
+            GARBAGE
         }
     }
 

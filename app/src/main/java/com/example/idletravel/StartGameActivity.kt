@@ -55,6 +55,12 @@ class StartGameActivity : AppCompatActivity() {
         mainViewOptionList[5] to systemWidgetsList
     )
 
+    // 反序列化生成的对象与原对象并不相同
+    var itemMap: MutableMap<String, Int> = mutableMapOf()
+
+    var itemViewMap: MutableMap<String, ItemView> = mutableMapOf()
+
+    var travelListButtonList: MutableList<TravelListButton> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -299,7 +305,7 @@ class StartGameActivity : AppCompatActivity() {
 
     private fun itemFillMainView() {
         for ((key, value) in itemMap) {
-            createItemView(key, value)
+            createItemView(CustomItem.valueOf(key), value)
         }
     }
 
@@ -375,7 +381,7 @@ class StartGameActivity : AppCompatActivity() {
         itemWidgetsList.widgetsList.add(itemTextView)
         itemWidgetsList.widgetsList.add(itemCountTextView)
 
-        itemViewMap[key] = ItemView(linearLayout, itemTextView, itemCountTextView)
+        itemViewMap[key.name] = ItemView(linearLayout, itemTextView, itemCountTextView)
 
         baseLayout.addView(itemInformationTextView)
 
@@ -478,10 +484,5 @@ class StartGameActivity : AppCompatActivity() {
 
 
 
-var itemMap: MutableMap<CustomItem, Int> = mutableMapOf()
-
-var itemViewMap: MutableMap<CustomItem, ItemView> = mutableMapOf()
-
-var travelListButtonList: MutableList<TravelListButton> = ArrayList()
 
 var player: Player = Player("debug", "debug", 65535)

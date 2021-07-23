@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.idletravel.customItem.CustomItem.*
 import com.example.idletravel.customItem.ItemMap
-import com.example.idletravel.customItem.items.garbageItem
 import com.example.idletravel.databinding.ActivityCreatePlayerBinding
 import com.example.idletravel.format.formatPlayerStatusTextTwoLines
 import com.example.idletravel.player.Player
@@ -33,7 +33,7 @@ class CreatePlayerActivity : AppCompatActivity() {
             val player = checkWidgetsAreFilled()
             if (player != null) {
                 val intent = Intent(this@CreatePlayerActivity, StartGameActivity::class.java)
-                val item = ItemMap(mutableMapOf(garbageItem to 2))
+                val item = ItemMap(mutableMapOf(GARBAGE.name to 2))
                 val bundle = Bundle()
 
                 bundle.putSerializable("item", item)
