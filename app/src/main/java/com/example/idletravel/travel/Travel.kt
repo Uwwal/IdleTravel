@@ -10,12 +10,15 @@ class Travel(
 ) {
     val travelList: MutableList<Area> = ArrayList() // 旅行计划
     private var inTravel: Boolean = false // 旅行中
-    private var time: Int = 0
+    private var time: Int = 0 // 当前旅行时间 = 当前旅行位置 一个意思 注意这是从0开始的
     private val handler = Handler()
     private val runnable = Runnable {
+        // 循环主体
         val area = this.travelList[0]
 
         if (time < area.travelTime) {
+            // 注意这个先判断而后再增
+            // 假如travelTime是5的话, 这里执行5次, 第6次执行finishTravel()
             time++
 
             checkDrop(area)
@@ -26,35 +29,34 @@ class Travel(
         if (time == area.travelTime) {
             finishTravel()
         }
-
     }
 
     private fun checkDrop(area: Area) {
+        // 检查掉落物
         val playerName = player.name
-        val itemMap = context.itemMap
+        val itemMap = context.itemCountMap
         if (area.checkDropsLocation(time)) {
+            // 进行了检查掉落物位置
             val dropItem:CustomItem = area.getDrops()
             val name = dropItem.name
 
-            var value = itemMap[dropItem.name]
-            if (value == null) {
-                value = 1
+            var itemCount = itemMap[dropItem.name]
+            if (itemCount == null) {
+                itemCount = 1
                 itemMap[name] = 1
             } else {
-                value++
-                itemMap.replace(name, value)
+                itemCount++
+                itemMap.replace(name, itemCount)
             }
 
             context.createTravelLogView(playerName + "在" + area.name + "找到了一个" + dropItem.itemName + ".")
 
-            // 更新ui操作
-            val itemViewList = context.itemViewMap[name]
-            if (itemViewList == null) {
-                context.runOnUiThread {
-                    context.createItemView(dropItem, value)
-                }
+            // 更新物品ui操作
+            val itemCountTextView = context.itemCountTextViewMap[name]
+            if (itemCountTextView == null) {
+                context.createItemView(dropItem, itemCount)
             } else {
-                itemViewList.itemCountTextView.text = value.toString()
+                itemCountTextView.text = itemCount.toString()
             }
 
             // 奖励点属性
@@ -73,6 +75,7 @@ class Travel(
 
             return (1 / (finishTime + 5.0) * (area.travelTime / area.dropsNumber.toDouble()) + area.travelTime / 600) / 10
             // 600是最大旅行时间
+            // 这里必须5.0来返回Double
         }
         return 0.00
     }
@@ -115,7 +118,7 @@ class Travel(
 
         context.createTravelLogView(name + "刚刚在" + travelList[0].name + "旅行完了.")
 
-        context.removeTravelButton(context.travelListButtonList[0])
+        context.removeTravelListButton(context.travelListButtonList[0])
         // 这里进行了travelList.removeAt
 
         context.createTravelLogView(name + "正在查看下一个旅行计划...")

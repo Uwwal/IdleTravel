@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 
+// 这个文件用来格式化视图/字符串
+
 fun formatView(
     view: View,
     params: ViewGroup.LayoutParams,

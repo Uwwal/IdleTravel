@@ -59,8 +59,7 @@ class CreatePlayerActivity : AppCompatActivity() {
         // 必须都填满了才能返回
         val name = binding.createPlayerNameEditText.checkBlank() ?: return null
         val sex = binding.createPlayerSexEditText.checkBlank() ?: return null
-        val age = binding.createPlayerAgeEditText.checkBlank() ?: return null
-        return Player(name, sex, age.toInt(), status)
+        return Player(name, sex, status)
     }
 
     private fun TextView.checkBlank(): String? {
