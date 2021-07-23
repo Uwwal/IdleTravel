@@ -33,7 +33,7 @@ class CreatePlayerActivity : AppCompatActivity() {
             val player = checkWidgetsAreFilled()
             if (player != null) {
                 val intent = Intent(this@CreatePlayerActivity, StartGameActivity::class.java)
-                val item = ItemMap(mutableMapOf(GARBAGE.name to 2))
+                val item = ItemMap(mutableMapOf())
                 val bundle = Bundle()
 
                 bundle.putSerializable("item", item)
