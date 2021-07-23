@@ -11,7 +11,7 @@
 - [ ] 视图
   - [x] activity_main
   - [x] activity_create_player
-  - [ ] activity_continue
+  - [ ] activity_select_save
   - [x] activity_start_game
 - [ ] 业务
   - [ ] 界面
