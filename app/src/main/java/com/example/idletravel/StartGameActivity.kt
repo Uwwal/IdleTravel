@@ -330,7 +330,7 @@ class StartGameActivity : AppCompatActivity() {
                 1F
             ),
             visibility,
-            text = key.name,
+            text = key.itemName,
             textSize = 30F
         )
 

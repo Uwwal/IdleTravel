@@ -12,7 +12,6 @@ class Travel(
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0
     private val handler = Handler()
-    private val itemMap = context.itemMap
     private val runnable = Runnable {
         val area = this.travelList[0]
 
@@ -32,6 +31,7 @@ class Travel(
 
     private fun checkDrop(area: Area) {
         val playerName = player.name
+        val itemMap = context.itemMap
         if (area.checkDropsLocation(time)) {
             val dropItem:CustomItem = area.getDrops()
             val name = dropItem.name
@@ -45,7 +45,7 @@ class Travel(
                 itemMap.replace(name, value)
             }
 
-            context.createTravelLogView(playerName + "在" + area.name + "找到了一个" + dropItem.name + ".")
+            context.createTravelLogView(playerName + "在" + area.name + "找到了一个" + dropItem.itemName + ".")
 
             // 更新ui操作
             val itemViewList = context.itemViewMap[name]
