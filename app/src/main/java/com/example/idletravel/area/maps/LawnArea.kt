@@ -1,5 +1,7 @@
 package com.example.idletravel.area.maps
 
+import com.example.idletravel.area.judgeItemAcquisition.enumClass.JudgeInsect
+import com.example.idletravel.area.judgeItemAcquisition.enumClass.JudgeSmallAnimal
 import com.example.idletravel.customItem.CustomItem.*
 import com.example.idletravel.player
 
@@ -15,11 +17,9 @@ val lawnDropsMap: HashMap<String, () -> Boolean> =
         GARBAGE.name to { true },
         SOFT_TWIG.name to { player.status[2] > 2 },
         BERRY.name to { player.status[4] > 3 },
-        LADYBUG.name to { player.status[3] > 1 && player.status[4] > 1 },
-        LONG_HORNED_BEETLE.name to {
-            (player.status[2] > 4 || (player.status[1] * player.status[5] > 8)) && player.status[4] > 1
-                                },
-        ANT.name to {true},
-        RABBIT.name to {player.status[2]*player.status[3]>64 && player.status[5]>5}
+        LADYBUG.name to { JudgeInsect.LADYBUG.getJudgement() },
+        LONG_HORNED_BEETLE.name to { JudgeInsect.LONG_HORNED_BEETLE.getJudgement() },
+        ANT.name to { JudgeInsect.ANT.getJudgement() },
+        RABBIT.name to { JudgeSmallAnimal.RIBBIT.getJudgement() },
     )
 val lawnDropsWeightList = listOf(30, 10, 5, 5, 5, 10, 1)
