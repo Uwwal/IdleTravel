@@ -1,21 +1,23 @@
 package com.example.idletravel
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.area.CustomArea
 import com.example.idletravel.customItem.CustomItem
-import com.example.idletravel.transmissionMap.TransmissionMap
 import com.example.idletravel.databinding.ActivityStartGameBinding
 import com.example.idletravel.format.*
 import com.example.idletravel.gameCalender.GameCalendar
 import com.example.idletravel.player.Player
+import com.example.idletravel.transmissionMap.TransmissionMap
 import com.example.idletravel.travel.Travel
 import com.example.idletravel.travelListButton.TravelListButton
 import com.example.idletravel.widgetsList.WidgetsList
@@ -412,6 +414,9 @@ class StartGameActivity : AppCompatActivity() {
 
             itemCountTextView.gravity = Gravity.END
 
+            // 添加之前判断
+            val atBottom = judgeScrollToBottom() && mainViewOptionCurrent == "物品"
+
             linearLayout.addView(itemTextView)
             linearLayout.addView(itemCountTextView)
 
@@ -425,6 +430,10 @@ class StartGameActivity : AppCompatActivity() {
 
             binding.startGameMainLayout.addView(linearLayout)
             binding.startGameMainLayout.addView(baseLayout)
+
+            if (atBottom){
+                scrollViewToBottom()
+            }
         }
     }
 
@@ -492,9 +501,16 @@ class StartGameActivity : AppCompatActivity() {
                 textSize = 15F
             )
 
+            // 添加之前判断
+            val atBottom = judgeScrollToBottom() && mainViewOptionCurrent == "日志"
+
             binding.startGameMainLayout.addView(travelTextView)
 
             travelLogWidgetsList.widgetsList.add(travelTextView)
+
+            if (atBottom){
+                scrollViewToBottom()
+            }
         }
     }
 
@@ -523,6 +539,24 @@ class StartGameActivity : AppCompatActivity() {
         } else {
             View.VISIBLE
         }
+    }
+
+    private fun judgeScrollToBottom(): Boolean{
+        // 返回是否滑到最底部
+        val scrollView:ScrollView =binding.startGameScrollView
+        return scrollView.scrollY + scrollView.height >= binding.startGameMainLayout.measuredHeight
+    }
+
+    private fun scrollViewToBottom(){
+        val handler = Handler()
+        val scrollView:ScrollView =binding.startGameScrollView
+
+        handler.postDelayed({
+            scrollView.smoothScrollTo(
+                0,
+                binding.startGameMainLayout.height
+            )
+        }, 350)
     }
 }
 
