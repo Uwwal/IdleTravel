@@ -2,6 +2,7 @@ package com.example.idletravel
 
 import android.os.Bundle
 import android.os.Handler
+import android.text.Spanned
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -377,6 +378,7 @@ class StartGameActivity : AppCompatActivity() {
                 ),
                 visibility,
                 text = key.itemName,
+                textColor = key.itemColor,
                 textSize = 30F
             )
 
@@ -389,6 +391,7 @@ class StartGameActivity : AppCompatActivity() {
                 ),
                 visibility,
                 text = value.toString(),
+                textColor = key.itemColor,
                 textSize = 30F
             )
 
@@ -485,7 +488,6 @@ class StartGameActivity : AppCompatActivity() {
         }
 
     fun createTravelLogView(message: String) {
-        // 中国时区
         // 后续添加日志用
         this@StartGameActivity.runOnUiThread {
             val dateFormat: DateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA)
@@ -498,6 +500,32 @@ class StartGameActivity : AppCompatActivity() {
                 layoutParamsFullWidth,
                 visibility,
                 text = "[$time]: $message",
+                textSize = 15F
+            )
+
+            // 添加之前判断
+            val atBottom = judgeScrollToBottom() && mainViewOptionCurrent == "日志"
+
+            binding.startGameMainLayout.addView(travelTextView)
+
+            travelLogWidgetsList.widgetsList.add(travelTextView)
+
+            if (atBottom){
+                scrollViewToBottom()
+            }
+        }
+    }
+
+    fun createTravelLogView(message: Spanned) {
+        // 后续添加日志用
+        this@StartGameActivity.runOnUiThread {
+            val visibility: Int = getVisibilityWithMainViewOptionCurrent("日志")
+
+            val travelTextView = formatTextView(
+                TextView(this@StartGameActivity),
+                layoutParamsFullWidth,
+                visibility,
+                spanned = message,
                 textSize = 15F
             )
 

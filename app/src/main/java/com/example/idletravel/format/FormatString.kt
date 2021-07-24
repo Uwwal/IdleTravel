@@ -1,5 +1,8 @@
 package com.example.idletravel.format
 
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_COMPACT
+import android.text.Spanned
 import com.example.idletravel.gameCalender.GameCalendar
 
 val formatPlayerStatusTextTwoLines: (List<Double>) -> String = { status ->
@@ -25,5 +28,13 @@ val formatGameCalendarToTime: (GameCalendar) -> String = { gameCalendar ->
     )
 }
 
-const val informationBlank = "        "
+val formatStringWithColor: (List<String>, List<String>) -> Spanned = { stringList, colorList ->
+    var string = ""
+    for (i in stringList.indices){
+        string+="<font color=${colorList[i]}>${stringList[i]}</font>"
+    }
+    Html.fromHtml(string,FROM_HTML_MODE_COMPACT)
+}
+
+const val INFORMATION_BLANK = "        "
 // 段落开头的空格占位

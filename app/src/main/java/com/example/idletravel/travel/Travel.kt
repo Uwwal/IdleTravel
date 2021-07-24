@@ -4,6 +4,11 @@ import android.os.Handler
 import com.example.idletravel.*
 import com.example.idletravel.area.CustomArea
 import com.example.idletravel.customItem.CustomItem
+import com.example.idletravel.format.CustomColor
+import com.example.idletravel.format.formatStringWithColor
+import java.text.DateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Travel(
     private val context: StartGameActivity
@@ -23,7 +28,7 @@ class Travel(
 
             // 判断季节是否更新
             gameCalendar.time++
-            if (gameCalendar.checkTime()){
+            if (gameCalendar.checkTime()) {
                 context.updateCalendarTextView()
             }
 
@@ -55,7 +60,23 @@ class Travel(
                 itemMap.replace(name, itemCount)
             }
 
-            context.createTravelLogView("${playerName}在${area.areaName}找到了一个${dropItem.itemName}.")
+
+            val dateFormat: DateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA)
+            val timeCurrent: String = dateFormat.format(Date())
+
+            context.createTravelLogView(
+                formatStringWithColor(
+                    listOf(
+                        "[$timeCurrent]: ${playerName}在${area.areaName}找到了一个",
+                        dropItem.itemName,
+                        "."
+                    ), listOf(
+                        CustomColor.DEFAULT.colorHEX,
+                        dropItem.itemColor,
+                        CustomColor.DEFAULT.colorHEX
+                    )
+                )
+            )
 
             // 更新物品ui操作
             val itemCountTextView = context.itemCountTextViewMap[name]
@@ -74,7 +95,7 @@ class Travel(
 
     private fun bonusStatus(status: Double, area: CustomArea): Double {
         if (status > area.lowerLimitOfBonusStatus && status < area.upperLimitOfBonusStatus) {
-            val finishTime: Int = player.finishMapTime[area.areaName]?:0
+            val finishTime: Int = player.finishMapTime[area.areaName] ?: 0
 
             return (1 / (finishTime + 5.0) * (area.travelTime / area.dropsNumber.toDouble()) + area.travelTime / 600) / 10
             // 600是最大旅行时间

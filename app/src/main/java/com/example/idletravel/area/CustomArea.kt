@@ -4,7 +4,7 @@ import com.example.idletravel.area.maps.lawnDropsList
 import com.example.idletravel.area.maps.lawnDropsMap
 import com.example.idletravel.area.maps.lawnDropsWeightList
 import com.example.idletravel.customItem.CustomItem
-import com.example.idletravel.format.informationBlank
+import com.example.idletravel.format.INFORMATION_BLANK
 import java.io.Serializable
 
 enum class CustomArea(
@@ -21,8 +21,8 @@ enum class CustomArea(
     LAWN(
         "草地",
         "家门口的草地, 与其说是旅行不如说是散步...\n" +
-                informationBlank + "稀稀疏疏的分布着一些灌木, 地上散落着没素质的路人留下的垃圾. 总之就是很乏味啦.\n" +
-                informationBlank + "当然你如果想拒绝乏味的话也可以考虑和昆虫, 兔子之类的斗智斗勇.. 很要求技术就是了.",
+                INFORMATION_BLANK + "稀稀疏疏的分布着一些灌木, 地上散落着没素质的路人留下的垃圾. 总之就是很乏味啦.\n" +
+                INFORMATION_BLANK + "当然你如果想拒绝乏味的话也可以考虑和昆虫, 兔子之类的斗智斗勇.. 很要求技术就是了.",
         5,
         lawnDropsMap,
         3,
@@ -37,7 +37,7 @@ enum class CustomArea(
     private var dropsLocationList = this.getDropsLocation()
 
     init {
-        information = informationBlank + information
+        information = INFORMATION_BLANK + information
     }
 
     private fun sumWeight(): Int {
