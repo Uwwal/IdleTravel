@@ -9,8 +9,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.idletravel.area.Area
-import com.example.idletravel.area.maps.grasslandArea
+import com.example.idletravel.area.CustomArea
 import com.example.idletravel.customItem.CustomItem
 import com.example.idletravel.transmissionMap.TransmissionMap
 import com.example.idletravel.databinding.ActivityStartGameBinding
@@ -111,7 +110,7 @@ class StartGameActivity : AppCompatActivity() {
 
             player = bundle.get("player") as Player
 
-            gameCalendar = bundle.get("gameCalender") as GameCalendar
+            gameCalendar = bundle.get("gameCalendar") as GameCalendar
         }
     }
 
@@ -225,10 +224,10 @@ class StartGameActivity : AppCompatActivity() {
 
     private fun mapFillMainView() {
         // 添加的时候记得去player完善finishTime
-        createMapView(grasslandArea)
+        createMapView(CustomArea.LAWN)
     }
 
-    private fun createMapView(area: Area) {
+    private fun createMapView(area: CustomArea) {
         // 地图选单特有创建
         this@StartGameActivity.runOnUiThread {
             val mapButton = formatButton(
@@ -237,7 +236,7 @@ class StartGameActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ),
-                text = area.name,
+                text = area.areaName,
                 textSize = 30F
             )
             if (this.mainViewOptionCurrent == "地图") {
@@ -434,7 +433,7 @@ class StartGameActivity : AppCompatActivity() {
         }
     }
 
-    fun createTravelListView(area: Area) {
+    fun createTravelListView(area: CustomArea) {
         // 队列不打算读取, 因此不需要fillMainView
         this@StartGameActivity.runOnUiThread {
             val visibility: Int = getVisibilityWithMainViewOptionCurrent("队列")
@@ -446,7 +445,7 @@ class StartGameActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 ),
                 visibility,
-                text = area.name,
+                text = area.areaName,
                 textSize = 30F
             ) as TravelListButton
 

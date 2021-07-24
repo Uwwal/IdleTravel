@@ -17,7 +17,7 @@ class CreatePlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreatePlayerBinding
     private var status: MutableList<Double> = mutableListOf(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00)
     // 力量 体质 灵巧 感知 学识 意志 魔力 魅力
-    private val gameCalender = GameCalendar()
+    private val gameCalendar = GameCalendar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +32,14 @@ class CreatePlayerActivity : AppCompatActivity() {
 
         binding.createPlayerFinishButton.setOnClickListener {
             val player = checkWidgetsAreFilled()
-            if (player != null) {
+            player.let {
                 val intent = Intent(this@CreatePlayerActivity, StartGameActivity::class.java)
                 val item = TransmissionMap(mutableMapOf())
                 val bundle = Bundle()
 
                 bundle.putSerializable("item", item)
                 bundle.putSerializable("player",player)
-                bundle.putSerializable("gameCalendar",gameCalender)
+                bundle.putSerializable("gameCalendar", gameCalendar)
                 intent.putExtras(bundle)
                 startActivity(intent)
 
@@ -48,14 +48,10 @@ class CreatePlayerActivity : AppCompatActivity() {
     }
 
     private fun rollStatus() {
-        for (i in status.indices) {
-            status[i] = randStatus().toDouble()
-        }
+        status.replaceAll { (1 until 10).random().toDouble() }
 
         binding.createPlayerStatusTextView.text = formatPlayerStatusTextTwoLines(status)
     }
-
-    private fun randStatus() = (Math.random() * 9 + 1).toInt()
 
     private fun checkWidgetsAreFilled(): Player? {
         // 必须都填满了才能返回

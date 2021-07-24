@@ -1,7 +1,6 @@
 package com.example.idletravel.player
 
-import com.example.idletravel.area.Area
-import com.example.idletravel.area.maps.grasslandArea
+import com.example.idletravel.area.CustomArea
 import java.io.Serializable
 
 class Player(
@@ -12,7 +11,7 @@ class Player(
     // 这里不要把list改成枚举类 血的教训
     // 如果改成枚举类, 则还需要一个list来保证随机奖励属性功能正常运行(位置在Travel.kt)
     var finishMapTime: HashMap<String, Int> = hashMapOf(
-        grasslandArea to 0
+        CustomArea.LAWN.name to 0
     )
 ) : Serializable {
 
