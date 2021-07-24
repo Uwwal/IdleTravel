@@ -21,6 +21,12 @@ class Travel(
             // 假如travelTime是5的话, 这里执行5次, 第6次执行finishTravel()
             time++
 
+            // 判断季节是否更新
+            gameCalendar.time++
+            if (gameCalendar.checkTime()){
+                context.updateCalendarTextView()
+            }
+
             checkDrop(area)
 
             travel()

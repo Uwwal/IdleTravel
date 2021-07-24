@@ -29,7 +29,7 @@ class StartGameActivity : AppCompatActivity() {
     private val travel = Travel(this)
 
     private val mainViewOptionList: List<String> = listOf(
-        "日志", "物品", "地图", "队列", "人物","事件","合成","日历", "系统"
+        "日志", "物品", "地图", "队列", "人物", "事件", "合成", "日历", "系统"
     )
     // 主视图选单
     // 增加选单要修改mainViewOptionList, 添加WidgetsList, 设置点击监听器, mainViewWidgetsListMap, 视图也要添加组件.
@@ -70,6 +70,14 @@ class StartGameActivity : AppCompatActivity() {
 
     var travelListButtonList: MutableList<TravelListButton> = ArrayList()
 
+    private val layoutParamsFullWidth = LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    )
+
+    private lateinit var calendarTextView: TextView
+    private lateinit var seasonInformationTextView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartGameBinding.inflate(LayoutInflater.from(this@StartGameActivity))
@@ -89,16 +97,33 @@ class StartGameActivity : AppCompatActivity() {
     private fun calendarFillMainView() {
         // 创建calendar视图特有组件
         this@StartGameActivity.runOnUiThread {
-            val calendarTextView = formatTextView(
+            calendarTextView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 text = formatGameCalendarToTime(gameCalendar),
                 textSize = 30F
             )
+
+            seasonInformationTextView = formatTextView(
+                TextView(this@StartGameActivity),
+                layoutParamsFullWidth,
+                text = gameCalendar.season.information,
+                textSize = 15F
+            )
+
+            calendarWidgetsList.widgetsList.add(calendarTextView)
+            calendarWidgetsList.widgetsList.add(seasonInformationTextView)
+
+            binding.startGameMainLayout.addView(calendarTextView)
+            binding.startGameMainLayout.addView(seasonInformationTextView)
         }
+    }
+
+    fun updateCalendarTextView(){
+        calendarTextView.text = formatGameCalendarToTime(gameCalendar)
+        seasonInformationTextView.text = gameCalendar.season.information
+
+        createTravelLogView("${gameCalendar.season.seasonName}悄然来到..")
     }
 
     private fun setVariablesWithIntent() {
@@ -164,17 +189,14 @@ class StartGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun playerFillMainView(){
+    private fun playerFillMainView() {
         // 创建player视图组件
         this@StartGameActivity.runOnUiThread {
             val visibility: Int = getVisibilityWithMainViewOptionCurrent("人物")
 
             val playerNameTextView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 visibility,
                 text = "名字:   " + player.name,
                 textSize = 30F
@@ -182,10 +204,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val playerSexTextView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 visibility,
                 text = "性别:   " + player.sex,
                 textSize = 30F
@@ -193,10 +212,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val playerStatusTextView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 visibility,
                 text = formatPlayerStatusTextEightLines(player.status),
                 textSize = 30F
@@ -216,7 +232,7 @@ class StartGameActivity : AppCompatActivity() {
         }
     }
 
-    fun updatePlayerStatusTextView(){
+    fun updatePlayerStatusTextView() {
         // player视图属性更新
         // travel类有属性奖励
         playerViewList[2].text = formatPlayerStatusTextEightLines(player.status)
@@ -232,10 +248,7 @@ class StartGameActivity : AppCompatActivity() {
         this@StartGameActivity.runOnUiThread {
             val mapButton = formatButton(
                 Button(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 text = area.areaName,
                 textSize = 30F
             )
@@ -245,10 +258,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val baseLayout = formatView(
                 LinearLayout(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                layoutParamsFullWidth,
             ) as LinearLayout
             baseLayout.orientation = LinearLayout.VERTICAL
 
@@ -264,10 +274,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val informationView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 text = area.information,
                 textSize = 15F
             )
@@ -275,10 +282,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val buttonLayout = formatView(
                 LinearLayout(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                layoutParamsFullWidth,
             ) as LinearLayout
             buttonLayout.orientation = LinearLayout.HORIZONTAL
 
@@ -357,10 +361,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val linearLayout = formatView(
                 LinearLayout(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 visibility
             ) as LinearLayout
             linearLayout.orientation = LinearLayout.HORIZONTAL
@@ -391,19 +392,13 @@ class StartGameActivity : AppCompatActivity() {
 
             val baseLayout = formatView(
                 LinearLayout(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                layoutParamsFullWidth,
             ) as LinearLayout
             baseLayout.orientation = LinearLayout.VERTICAL
 
             val itemInformationTextView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                ),
+                layoutParamsFullWidth,
                 visibility,
                 text = key.information,
                 textSize = 15F
@@ -440,10 +435,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val travelButton = formatButton(
                 TravelListButton(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                ),
+                layoutParamsFullWidth,
                 visibility,
                 text = area.areaName,
                 textSize = 30F
@@ -494,10 +486,7 @@ class StartGameActivity : AppCompatActivity() {
 
             val travelTextView = formatTextView(
                 TextView(this@StartGameActivity),
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ),
+                layoutParamsFullWidth,
                 visibility,
                 text = "[$time]: $message",
                 textSize = 15F
@@ -509,7 +498,7 @@ class StartGameActivity : AppCompatActivity() {
         }
     }
 
-    fun removeTravelListButton(travelButton: TravelListButton){
+    fun removeTravelListButton(travelButton: TravelListButton) {
         // 移除travelListButton
         binding.startGameMainLayout.removeView(travelButton)
         adjustTravelListButtonListIndex(travelButton.index)

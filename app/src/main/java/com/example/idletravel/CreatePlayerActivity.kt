@@ -42,7 +42,6 @@ class CreatePlayerActivity : AppCompatActivity() {
                 bundle.putSerializable("gameCalendar", gameCalendar)
                 intent.putExtras(bundle)
                 startActivity(intent)
-
             }
         }
     }

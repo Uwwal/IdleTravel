@@ -21,7 +21,7 @@ val formatPlayerStatusTextEightLines: (List<Double>) -> String = { status ->
 
 val formatGameCalendarToTime: (GameCalendar) -> String = { gameCalendar ->
     String.format(
-        ""+gameCalendar.year+"年 "+gameCalendar.getSeasonPhaseString()+gameCalendar.season.seasonName
+        ""+gameCalendar.year+"年 "+gameCalendar.getSeasonPhaseString()+gameCalendar.season.seasonName[0]
     )
 }
 

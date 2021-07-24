@@ -33,16 +33,16 @@ class GameCalendar constructor(
     }
 
     fun getSeasonPhaseString(): String {
-        // 伯 仲 季 指 季节的上中下三段
+        // 孟 仲 季 指 季节的上中下三段
         return when {
             time > seasonTime / 3 * 2 -> {
-                "伯"
+                "孟"
             }
             time > seasonTime / 3 -> {
                 "仲"
             }
             else -> {
-                "季"
+                "伯"
             }
         }
     }
