@@ -5,8 +5,9 @@ import com.example.idletravel.customItem.CustomItem.*
 import com.example.idletravel.format.informationBlank
 import java.io.Serializable
 
-class Area(
-    val name: String,
+interface Area : Serializable{
+
+    val areaName: String,
     var information: String,
     val travelTime: Int, // 旅行时间 设想是从5到600
     private val dropsMap: HashMap<String, () -> Boolean>, // 掉落物检查表, value值是个lambda
@@ -15,15 +16,15 @@ class Area(
     private val dropsList: List<String>, // 掉落物列表 和掉落物权重index相同
     val upperLimitOfBonusStatus: Int = 9, // 奖励属性上限值
     val lowerLimitOfBonusStatus: Int = 0, // 下限值
-): Serializable{
+    private var totalWeight = this.sumWeight() // 总权重
+    private var dropsLocationList = this.getDropsLocation()
+    private var finish = false // 完成标记, 用于标记地图是否完成.
+
     init {
         // 添加段落开头空格
         information = informationBlank + information
     }
 
-    private var totalWeight = this.sumWeight() // 总权重
-    private var dropsLocationList = this.getDropsLocation()
-    private var finish = false // 完成标记, 用于标记地图是否完成.
 
     private fun sumWeight(): Int {
         // 获取总权重

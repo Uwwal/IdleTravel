@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.area.Area
 import com.example.idletravel.area.maps.grasslandArea
 import com.example.idletravel.customItem.CustomItem
-import com.example.idletravel.customItem.ItemMap
+import com.example.idletravel.transmissionMap.TransmissionMap
 import com.example.idletravel.databinding.ActivityStartGameBinding
 import com.example.idletravel.format.*
+import com.example.idletravel.gameCalender.GameCalendar
 import com.example.idletravel.player.Player
 import com.example.idletravel.travel.Travel
 import com.example.idletravel.travelListButton.TravelListButton
@@ -28,9 +29,11 @@ class StartGameActivity : AppCompatActivity() {
 
     private val travel = Travel(this)
 
-    private val mainViewOptionList: List<String> = listOf("日志", "物品", "地图", "队列", "人物", "系统")
+    private val mainViewOptionList: List<String> = listOf(
+        "日志", "物品", "地图", "队列", "人物","事件","合成","日历", "系统"
+    )
     // 主视图选单
-    // 增加选单要修改mainViewOptionList, 添加WidgetsList, 设置点击监听器, mainViewWidgetsListMap
+    // 增加选单要修改mainViewOptionList, 添加WidgetsList, 设置点击监听器, mainViewWidgetsListMap, 视图也要添加组件.
 
     private var mainViewOptionCurrent: String = mainViewOptionList[0]
     // 主视图当前选择的视图
@@ -40,6 +43,9 @@ class StartGameActivity : AppCompatActivity() {
     private val mapWidgetsList = WidgetsList()
     private val travelListWidgetsList = WidgetsList()
     private val playerWidgetsList = WidgetsList()
+    private val eventWidgetsList = WidgetsList()
+    private val productionWidgetsList = WidgetsList()
+    private val calendarWidgetsList = WidgetsList()
     private val systemWidgetsList = WidgetsList()
 
     // 每个视图对应一个组件
@@ -52,7 +58,10 @@ class StartGameActivity : AppCompatActivity() {
         mainViewOptionList[2] to mapWidgetsList,
         mainViewOptionList[3] to travelListWidgetsList,
         mainViewOptionList[4] to playerWidgetsList,
-        mainViewOptionList[5] to systemWidgetsList
+        mainViewOptionList[5] to eventWidgetsList,
+        mainViewOptionList[6] to productionWidgetsList,
+        mainViewOptionList[7] to calendarWidgetsList,
+        mainViewOptionList[8] to systemWidgetsList,
     )
 
     // 反序列化生成的对象与原对象并不相同
@@ -71,21 +80,38 @@ class StartGameActivity : AppCompatActivity() {
 
         setStartGameButtonOnClickListener()
 
-
         // 这些xxFillMainView只在初始化调用一次
         mapFillMainView()
         itemFillMainView()
         playerFillMainView()
+        calendarFillMainView()
+    }
+
+    private fun calendarFillMainView() {
+        // 创建calendar视图特有组件
+        this@StartGameActivity.runOnUiThread {
+            val calendarTextView = formatTextView(
+                TextView(this@StartGameActivity),
+                LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ),
+                text = formatGameCalendarToTime(gameCalendar),
+                textSize = 30F
+            )
+        }
     }
 
     private fun setVariablesWithIntent() {
         // 从CreatePlayerActivity和SelectSaveActivity获取Intent
         val bundle = this@StartGameActivity.intent.extras
-        if (bundle != null) {
-            val map = bundle.get("item") as ItemMap
+        bundle?.let {
+            val map = bundle.get("item") as TransmissionMap
             itemCountMap = map.map
 
             player = bundle.get("player") as Player
+
+            gameCalendar = bundle.get("gameCalender") as GameCalendar
         }
     }
 
@@ -111,8 +137,20 @@ class StartGameActivity : AppCompatActivity() {
             val mainViewOptionListIndex = 4
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
-        binding.startGameSystemButton.setOnClickListener {
+        binding.startGameEventButton.setOnClickListener {
             val mainViewOptionListIndex = 5
+            this.menuButtonOnClick(mainViewOptionListIndex)
+        }
+        binding.startGameProductionButton.setOnClickListener {
+            val mainViewOptionListIndex = 6
+            this.menuButtonOnClick(mainViewOptionListIndex)
+        }
+        binding.startGameCalenderButton.setOnClickListener {
+            val mainViewOptionListIndex = 7
+            this.menuButtonOnClick(mainViewOptionListIndex)
+        }
+        binding.startGameSystemButton.setOnClickListener {
+            val mainViewOptionListIndex = 8
             this.menuButtonOnClick(mainViewOptionListIndex)
         }
     }
@@ -421,7 +459,7 @@ class StartGameActivity : AppCompatActivity() {
                     val areaName = travelButton.text
                     binding.startGameMainLayout.removeView(travelButton)
 
-                    createTravelLogView(player.name + "已经把" + areaName + "从计划里移除了!")
+                    createTravelLogView("${player.name}已经把${areaName}从计划里移除了!")
 
                     removeTravelListButton(travelButton)
                 }
@@ -500,5 +538,6 @@ class StartGameActivity : AppCompatActivity() {
     }
 }
 
-// 这玩意写这里可以被import, 当全局变量用了, 主要有的类上下文传不进去, 只能这么用.
+// 这玩意写这里可以被import, 当全局变量用了, 主要Area类上下文传不进去, 只能这么用.
 var player: Player = Player("debug", "debug")
+var gameCalendar: GameCalendar = GameCalendar()

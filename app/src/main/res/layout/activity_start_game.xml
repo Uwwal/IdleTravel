@@ -53,6 +53,18 @@
                     style="@style/style_start_game_menu_button"
                     android:id="@+id/startGamePlayerButton"/>
                 <Button
+                    android:text="@string/startGameEventButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameEventButton"/>
+                <Button
+                    android:text="@string/startGameProductionButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameProductionButton"/>
+                <Button
+                    android:text="@string/startGameCalenderButtonText"
+                    style="@style/style_start_game_menu_button"
+                    android:id="@+id/startGameCalenderButton"/>
+                <Button
                     android:text="@string/startGameSystemButtonText"
                     style="@style/style_start_game_menu_button"
                     android:id="@+id/startGameSystemButton"/>

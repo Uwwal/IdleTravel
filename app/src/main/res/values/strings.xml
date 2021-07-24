@@ -17,4 +17,7 @@
     <string name="startGameSystemButtonText">系统</string>
     <string name="startGameTravelListButtonText">队列</string>
     <string name="createPlayerRollButton">重掷</string>
+    <string name="startGameEventButtonText">事件</string>
+    <string name="startGameProductionButtonText">合成</string>
+    <string name="startGameCalenderButtonText">日历</string>
 </resources>

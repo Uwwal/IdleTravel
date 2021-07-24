@@ -37,7 +37,7 @@ class Travel(
         val itemMap = context.itemCountMap
         if (area.checkDropsLocation(time)) {
             // 进行了检查掉落物位置
-            val dropItem:CustomItem = area.getDrops()
+            val dropItem: CustomItem = area.getDrops()
             val name = dropItem.name
 
             var itemCount = itemMap[dropItem.name]
@@ -49,7 +49,7 @@ class Travel(
                 itemMap.replace(name, itemCount)
             }
 
-            context.createTravelLogView(playerName + "在" + area.name + "找到了一个" + dropItem.itemName + ".")
+            context.createTravelLogView("${playerName}在${area.name}找到了一个${dropItem.itemName}.")
 
             // 更新物品ui操作
             val itemCountTextView = context.itemCountTextViewMap[name]
@@ -77,7 +77,7 @@ class Travel(
             // 600是最大旅行时间
             // 这里必须5.0来返回Double
         }
-        return 0.00
+        return 0.0
     }
 
     private fun travel() {
@@ -92,7 +92,7 @@ class Travel(
         val name = player.name
         travelList.add(area)
 
-        context.createTravelLogView(name + "已经将" + area.name + "加入到旅行计划里了!")
+        context.createTravelLogView("${name}已经将${area.name}加入到旅行计划里了!")
 
         context.createTravelListView(area)
 
@@ -111,24 +111,24 @@ class Travel(
 
         val finishTime: Int? = player.finishMapTime[travelList[0]]
         player.finishMapTime[travelList[0]] = if (finishTime == null) {
-            0
+            1
         } else {
             finishTime + 1
         }
 
-        context.createTravelLogView(name + "刚刚在" + travelList[0].name + "旅行完了.")
+        context.createTravelLogView("${name}刚刚在${travelList[0].name}旅行完了.")
 
         context.removeTravelListButton(context.travelListButtonList[0])
         // 这里进行了travelList.removeAt
 
-        context.createTravelLogView(name + "正在查看下一个旅行计划...")
+        context.createTravelLogView("${name}正在查看下一个旅行计划...")
 
         if (travelList.isNotEmpty()) {
             // 如果旅行列表非空则继续旅行
-            context.createTravelLogView(name + "即将前往" + travelList[0].name + ".")
+            context.createTravelLogView("${name}即将前往${travelList[0].name}.")
             travel()
         } else {
-            context.createTravelLogView(name + "完成了目前所有的计划, 开心!")
+            context.createTravelLogView("${name}完成了目前所有的计划, 开心!")
         }
     }
 

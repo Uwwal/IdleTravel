@@ -1,10 +1,8 @@
-package com.example.idletravel.customItem
+package com.example.idletravel.transmissionMap
 
 import java.io.Serializable
 
-class ItemMap constructor(
-    var map: MutableMap<String, Int>
-): Serializable {
+class TransmissionMap(var map: MutableMap<String, Int>) : Serializable {
 }
 
 // 这个类用来在两个activity之间传递Map

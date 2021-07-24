@@ -6,17 +6,18 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.idletravel.customItem.CustomItem.*
-import com.example.idletravel.customItem.ItemMap
+import com.example.idletravel.transmissionMap.TransmissionMap
 import com.example.idletravel.databinding.ActivityCreatePlayerBinding
 import com.example.idletravel.format.formatPlayerStatusTextTwoLines
+import com.example.idletravel.gameCalender.GameCalendar
 import com.example.idletravel.player.Player
 
 
 class CreatePlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreatePlayerBinding
-    var status: MutableList<Double> = mutableListOf(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00)
+    private var status: MutableList<Double> = mutableListOf(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00)
     // 力量 体质 灵巧 感知 学识 意志 魔力 魅力
-
+    private val gameCalender = GameCalendar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +34,12 @@ class CreatePlayerActivity : AppCompatActivity() {
             val player = checkWidgetsAreFilled()
             if (player != null) {
                 val intent = Intent(this@CreatePlayerActivity, StartGameActivity::class.java)
-                val item = ItemMap(mutableMapOf())
+                val item = TransmissionMap(mutableMapOf())
                 val bundle = Bundle()
 
                 bundle.putSerializable("item", item)
                 bundle.putSerializable("player",player)
+                bundle.putSerializable("gameCalendar",gameCalender)
                 intent.putExtras(bundle)
                 startActivity(intent)
 
