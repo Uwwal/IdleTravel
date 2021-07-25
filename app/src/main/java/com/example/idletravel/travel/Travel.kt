@@ -1,6 +1,7 @@
 package com.example.idletravel.travel
 
 import android.os.Handler
+import android.os.Looper
 import com.example.idletravel.*
 import com.example.idletravel.area.CustomArea
 import com.example.idletravel.customItem.CustomItem
@@ -16,7 +17,7 @@ class Travel(
     val travelList: MutableList<CustomArea> = ArrayList() // 旅行计划
     private var inTravel: Boolean = false // 旅行中
     private var time: Int = 0 // 当前旅行时间 = 当前旅行位置 一个意思 注意这是从0开始的
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private val runnable = Runnable {
         // 循环主体
         val area = this.travelList[0]
@@ -45,7 +46,7 @@ class Travel(
     private fun checkDrop(area: CustomArea) {
         // 检查掉落物
         val playerName = player.name
-        val itemMap = context.itemCountMap
+        val itemMap = itemCountMap
         if (area.checkDropsLocation(time)) {
             // 进行了检查掉落物位置
             val dropItem: CustomItem = area.getDrops()

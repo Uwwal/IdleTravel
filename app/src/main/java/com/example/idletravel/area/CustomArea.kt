@@ -30,8 +30,8 @@ enum class CustomArea(
         lawnDropsList,
         9,
         0
-    );
-
+    )
+    ;
     private var finish: Boolean = false
     private var totalWeight = this.sumWeight() // 总权重
     private var dropsLocationList = this.getDropsLocation()
@@ -57,18 +57,11 @@ enum class CustomArea(
     private fun getDropsLocation(): MutableList<Int> {
         // 获取掉落物位置列表
         // 会返回一个[1,travelTime]的列表, size为掉落物数量
-        val temList: MutableList<Int> = ArrayList()
-        val originList: MutableList<Int> = ArrayList()
+        var temList: MutableList<Int> = MutableList(travelTime){it}
 
-        for (i in 1..this.travelTime) {
-            originList.add(i)
-        }
+        temList.shuffle()
+        temList = temList.take(dropsNumber) as MutableList<Int>
 
-        for (i in 1..this.dropsNumber) {
-            val rand = (0 until originList.size).random()
-            temList.add(originList[rand])
-            originList.removeAt(rand)
-        }
         // 排序为了按顺序获取, 因为time是+1 判断 +1 判断
         temList.sort()
         return temList

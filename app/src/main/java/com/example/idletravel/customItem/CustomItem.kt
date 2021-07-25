@@ -5,10 +5,10 @@ import com.example.idletravel.format.INFORMATION_BLANK
 import java.io.Serializable
 
 enum class CustomItem(
-    val information:String,
+    var information:String,
     val itemName:String,
     val itemColor: String,
-):PreProcessingString,Serializable{
+):Serializable{
     GARBAGE(
         "虽说是垃圾, 但是其中有好东西也不一定, 只是因为乱糟糟的让人没有翻捡的意愿啊.",
         "垃圾",
@@ -44,11 +44,8 @@ enum class CustomItem(
         "兔子",
         CustomColor.ITEM_UNCOMMON.colorHEX
     )
-
-}
-
-interface PreProcessingString{
-    fun addingBlank(string:String):String{
-        return INFORMATION_BLANK + string
+    ;
+    init {
+        information = INFORMATION_BLANK+information
     }
 }

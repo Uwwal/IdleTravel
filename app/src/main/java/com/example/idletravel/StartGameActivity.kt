@@ -2,6 +2,7 @@ package com.example.idletravel
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Spanned
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -65,9 +66,6 @@ class StartGameActivity : AppCompatActivity() {
         mainViewOptionList[7] to calendarWidgetsList,
         mainViewOptionList[8] to systemWidgetsList,
     )
-
-    // 反序列化生成的对象与原对象并不相同
-    var itemCountMap: MutableMap<String, Int> = mutableMapOf()
 
     var itemCountTextViewMap: MutableMap<String, TextView> = mutableMapOf()
 
@@ -576,7 +574,7 @@ class StartGameActivity : AppCompatActivity() {
     }
 
     private fun scrollViewToBottom(){
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         val scrollView:ScrollView =binding.startGameScrollView
 
         handler.postDelayed({
@@ -589,5 +587,9 @@ class StartGameActivity : AppCompatActivity() {
 }
 
 // 这玩意写这里可以被import, 当全局变量用了, 主要Area类上下文传不进去, 只能这么用.
+// 反序列化生成的对象与原对象并不相同
 var player: Player = Player("debug", "debug")
+// string是CustomItem.name
+var itemCountMap: MutableMap<String, Int> = mutableMapOf()
+
 var gameCalendar: GameCalendar = GameCalendar()

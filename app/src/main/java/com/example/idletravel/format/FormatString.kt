@@ -36,5 +36,5 @@ val formatStringWithColor: (List<String>, List<String>) -> Spanned = { stringLis
     Html.fromHtml(string,FROM_HTML_MODE_COMPACT)
 }
 
-const val INFORMATION_BLANK = "        "
+const val INFORMATION_BLANK = "　　"
 // 段落开头的空格占位
