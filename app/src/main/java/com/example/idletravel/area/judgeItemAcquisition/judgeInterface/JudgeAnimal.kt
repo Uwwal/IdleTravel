@@ -34,6 +34,7 @@ interface JudgeAnimal : Judge {
 }
 
 // 注意 数值非线性增加.
+// 注意 乘数只加不减
 
 /*
     力量: 0~上不封顶
@@ -70,4 +71,5 @@ interface JudgeAnimal : Judge {
     大小小于10 -> +1
     大小小于5 -> +1
     有洞穴 -> +2
+    地形崎岖 -> +1
 */

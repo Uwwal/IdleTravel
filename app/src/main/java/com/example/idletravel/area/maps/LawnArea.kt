@@ -1,5 +1,6 @@
 package com.example.idletravel.area.maps
 
+import com.example.idletravel.area.judgeItemAcquisition.enumClass.JudgeBurry
 import com.example.idletravel.area.judgeItemAcquisition.enumClass.JudgeInsect
 import com.example.idletravel.area.judgeItemAcquisition.enumClass.JudgeSmallAnimal
 import com.example.idletravel.customItem.CustomItem.*
@@ -16,7 +17,7 @@ val lawnDropsMap: HashMap<String, () -> Boolean> =
     hashMapOf(
         GARBAGE.name to { true },
         SOFT_TWIG.name to { player.status[2] > 2 },
-        BERRY.name to { player.status[4] > 3 },
+        BERRY.name to { JudgeBurry.BURRY.getJudgement() },
         LADYBUG.name to { JudgeInsect.LADYBUG.getJudgement() },
         LONG_HORNED_BEETLE.name to { JudgeInsect.LONG_HORNED_BEETLE.getJudgement() },
         ANT.name to { JudgeInsect.ANT.getJudgement() },

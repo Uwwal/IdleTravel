@@ -10,7 +10,7 @@ enum class Season (val seasonName: String, val information: String): Serializabl
     ),
     SUMMER(
         "夏季",
-        "${INFORMATION_BLANK}夏季魔力丰饶, 魔物也因此攻击性不强, 可以比较安心的远行采集物品了."
+        "${INFORMATION_BLANK}夏季魔力丰饶, 魔物也因此攻击性不强, 可以在这歌季节比较安心的远行采集物品."
     ),
     AUTUMN(
         "秋季",

@@ -15,7 +15,7 @@ enum class JudgeInsect(
         Season.AUTUMN
     ), // 默认昆虫冬季不出现
     override val avoidingBattle: Boolean = false,
-    override val winWithSpeedDifferent: Int = 2
+    override val winWithSpeedDifferent: Int = 2 // 大小小于10 大小小于5
 ) : JudgeAnimal {
     LADYBUG(1, 0, 0, 5, 3),
     LONG_HORNED_BEETLE(4, 20, 3, 3, 2),
