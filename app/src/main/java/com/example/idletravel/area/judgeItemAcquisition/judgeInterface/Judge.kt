@@ -13,6 +13,8 @@ interface Judge {
     fun judgeWithSeason(): Boolean {
         return gameCalendar.season in season
     }
+
+    fun discover(): Boolean
 }
 
 // 注意 数值非线性增加.

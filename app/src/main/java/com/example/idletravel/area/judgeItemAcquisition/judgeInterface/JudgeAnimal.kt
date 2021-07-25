@@ -9,26 +9,27 @@ interface JudgeAnimal : Judge {
     val winWithSpeedDifferent: Int // 速度战胜难度乘数
     val avoidingBattle: Boolean // 避战, 为真时只能通过速度碾压战胜
 
-    fun discover(): Boolean {
+    override fun discover(): Boolean {
         // 首先你要发现
         // 感知 > 速度 / 速度基准(人) * 隐蔽 / 最大隐蔽 / 大小 * 大小基准(水桶)
         // 因为最大隐蔽数值上与水桶大小相等, 因此消去
-        return player.status[3] > speed / 10 * concealment / size
+        return player.getStatus("感知") > speed / 10 * concealment / size
     }
 
     fun winWithSpeed(): Boolean {
         // 完全速度碾压
         // 灵巧 * 感知 / 2 > 速度 / 速度基准(人) * 速度战胜难度乘数
-        return player.status[2] * player.status[3] / 2 > speed * winWithSpeedDifferent / 10
+        return player.getStatus("灵巧") * player.getStatus("感知") / 2 > speed * winWithSpeedDifferent / 10
     }
 
     fun win(): Boolean {
         // 常规方法取胜
         // 体质 + 意志 > 力量 * 攻击性 / 最大攻击性, 意思就是你扛得住伤害
         // 力量 * 体质 * 灵巧 * 感知 > 力量 * 速度 * 2, 意思就是你综合能力更强
-        return avoidingBattle &&
-                player.status[1] + player.status[5] > power * aggressiveness / 10 &&
-                player.status[0] * player.status[1] * player.status[2] * player.status[3] > power * speed * 2
+        return (!avoidingBattle) &&
+                player.getStatus("体质") + player.getStatus("意志") > power * aggressiveness / 10 &&
+                (player.getStatus("力量") * player.getStatus("体质") *
+                        player.getStatus("灵巧") * player.getStatus("感知") > power * speed * 2)
     }
 }
 

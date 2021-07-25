@@ -14,5 +14,17 @@ class Player(
         CustomArea.LAWN.name to 0
     )
 ) : Serializable {
-
+    val getStatus: (String) -> Double ={statusName->
+        when(statusName){
+            "力量"->status[0]
+            "体质"->status[1]
+            "灵巧"->status[2]
+            "感知"->status[3]
+            "学识"->status[4]
+            "意志"->status[5]
+            "魔力"->status[6]
+            "魅力"->status[7]
+            else -> status[0]
+        }
+    }
 }
