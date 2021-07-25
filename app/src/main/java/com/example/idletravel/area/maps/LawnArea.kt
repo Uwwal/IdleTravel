@@ -20,6 +20,6 @@ val lawnDropsMap: HashMap<String, () -> Boolean> =
         LADYBUG.name to { JudgeInsect.LADYBUG.getJudgement() },
         LONG_HORNED_BEETLE.name to { JudgeInsect.LONG_HORNED_BEETLE.getJudgement() },
         ANT.name to { JudgeInsect.ANT.getJudgement() },
-        RABBIT.name to { JudgeSmallAnimal.RIBBIT.getJudgement() },
+        RABBIT.name to { JudgeSmallAnimal.RABBIT.getJudgement() },
     )
 val lawnDropsWeightList = listOf(30, 10, 5, 5, 5, 10, 1)

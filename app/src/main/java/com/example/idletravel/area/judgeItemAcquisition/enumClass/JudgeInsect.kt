@@ -17,9 +17,9 @@ enum class JudgeInsect(
     override val avoidingBattle: Boolean = false,
     override val winWithSpeedDifferent: Int = 2
 ) : JudgeAnimal {
-    LADYBUG(1, 0, 0, 10, 3),
-    LONG_HORNED_BEETLE(3, 15, 3, 4, 2),
-    ANT(1, 1, 2, 4, 2),
+    LADYBUG(1, 0, 0, 5, 3),
+    LONG_HORNED_BEETLE(4, 20, 3, 3, 2),
+    ANT(1, 1, 2, 3, 2),
     ;
 
     override val getJudgement: () -> Boolean = {
