@@ -32,6 +32,7 @@ enum class CustomProduction(
     }
     ;
 
+
     init {
         productionInformation = INFORMATION_BLANK + productionInformation
     }
