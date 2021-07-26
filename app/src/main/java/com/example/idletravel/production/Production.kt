@@ -6,10 +6,12 @@ import com.example.idletravel.format.CustomColor
 import com.example.idletravel.format.INFORMATION_BLANK
 import com.example.idletravel.format.formatStringWithColor
 import com.example.idletravel.itemCountMap
+import com.example.idletravel.player
 
 interface Production {
     val materialNumberMap: Map<String, Int>
-    val recipe: List<String>
+    val statusMap: Map<String, Int> // 写力量啥的
+    val recipe: List<String> // 配方 仪器
     val production: String
     val produceName: String
     val productionInformation: String
@@ -29,6 +31,7 @@ interface Production {
         }
 
         textList.add("配方需求:\n")
+        colorList.add(CustomColor.DEFAULT.colorHEX)
         if (recipe[0] == noRecipeRequired) {
             textList.add(noRecipeRequired)
             colorList.add(CustomColor.DEFAULT.colorHEX)
@@ -38,7 +41,14 @@ interface Production {
                 colorList.add(CustomItem.valueOf(i).itemColor)
             }
         }
-        return formatStringWithColor(textList,colorList)
+
+        textList.add("属性需求:")
+        colorList.add(CustomColor.DEFAULT.colorHEX)
+        for ((key, value) in statusMap) {
+            textList.add("${key}: $value")
+            colorList.add(CustomColor.DEFAULT.colorHEX)
+        }
+        return formatStringWithColor(textList, colorList)
     }
 
     private fun getItemName(
@@ -50,7 +60,7 @@ interface Production {
         key: String,
     ) = "${INFORMATION_BLANK}${CustomItem.valueOf(key).itemName}\n"
 
-    fun checkRecipe(recipe: List<String>): Boolean {
+    fun checkRecipe(): Boolean {
         if (recipe[0] == noRecipeRequired) {
             return true
         }
@@ -61,6 +71,24 @@ interface Production {
             }
         }
 
+        return true
+    }
+
+    fun checkStatus(): Boolean {
+        for ((key, value) in statusMap) {
+            if (player.getStatus(key) < value) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun checkMaterial(): Boolean {
+        for ((key, value) in materialNumberMap) {
+            if (itemCountMap[key]!! < value) {
+                return false
+            }
+        }
         return true
     }
 }
