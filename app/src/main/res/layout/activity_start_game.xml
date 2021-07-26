@@ -33,42 +33,60 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <Button
-                    android:text="@string/startGameTravelLogButtonText"
+                    android:id="@+id/startGameTravelLogButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameTravelLogButton"/>
+                    android:onClick="showTravelLog"
+                    android:text="@string/startGameTravelLogButtonText" />
+
                 <Button
-                    android:text="@string/startGameItemButtonText"
+                    android:id="@+id/startGameItemButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameItemButton"/>
+                    android:onClick="showItem"
+                    android:text="@string/startGameItemButtonText" />
+
                 <Button
-                    android:text="@string/startGameMapButtonText"
+                    android:id="@+id/startGameMapButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameMapButton"/>
+                    android:onClick="showMap"
+                    android:text="@string/startGameMapButtonText" />
+
                 <Button
-                    android:text="@string/startGameTravelListButtonText"
+                    android:id="@+id/startGameTravelListButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameTravelListButton"/>
+                    android:onClick="showTravelList"
+                    android:text="@string/startGameTravelListButtonText" />
+
                 <Button
-                    android:text="@string/startGamePlayerButtonText"
+                    android:id="@+id/startGamePlayerButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGamePlayerButton"/>
+                    android:onClick="showPlayer"
+                    android:text="@string/startGamePlayerButtonText" />
+
                 <Button
-                    android:text="@string/startGameEventButtonText"
+                    android:id="@+id/startGameEventButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameEventButton"/>
+                    android:onClick="showEvent"
+                    android:text="@string/startGameEventButtonText" />
+
                 <Button
-                    android:text="@string/startGameProductionButtonText"
+                    android:id="@+id/startGameProductionButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameProductionButton"/>
+                    android:onClick="showProduction"
+                    android:text="@string/startGameProductionButtonText" />
+
                 <Button
-                    android:text="@string/startGameCalenderButtonText"
+                    android:id="@+id/startGameCalenderButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameCalenderButton"/>
+                    android:onClick="showCalendar"
+                    android:text="@string/startGameCalenderButtonText" />
+
                 <Button
-                    android:text="@string/startGameSystemButtonText"
+                    android:id="@+id/startGameSystemButton"
                     style="@style/style_start_game_menu_button"
-                    android:id="@+id/startGameSystemButton"/>
+                    android:onClick="showSystem"
+                    android:text="@string/startGameSystemButtonText" />
             </LinearLayout>
         </HorizontalScrollView>
 

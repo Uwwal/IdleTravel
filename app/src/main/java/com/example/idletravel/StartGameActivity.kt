@@ -40,32 +40,12 @@ class StartGameActivity : AppCompatActivity() {
 
     private var mainViewOptionCurrent: String = mainViewOptionList[0]
     // 主视图当前选择的视图
-
-    private val travelLogWidgetsList = WidgetsList()
-    private val itemWidgetsList = WidgetsList()
-    private val mapWidgetsList = WidgetsList()
-    private val travelListWidgetsList = WidgetsList()
-    private val playerWidgetsList = WidgetsList()
-    private val eventWidgetsList = WidgetsList()
-    private val productionWidgetsList = WidgetsList()
-    private val calendarWidgetsList = WidgetsList()
-    private val systemWidgetsList = WidgetsList()
-
     // 每个视图对应一个组件
 
     private val playerViewList: MutableList<TextView> = ArrayList()
 
-    private val mainViewWidgetsListMap: Map<String, WidgetsList> = mapOf(
-        mainViewOptionList[0] to travelLogWidgetsList,
-        mainViewOptionList[1] to itemWidgetsList,
-        mainViewOptionList[2] to mapWidgetsList,
-        mainViewOptionList[3] to travelListWidgetsList,
-        mainViewOptionList[4] to playerWidgetsList,
-        mainViewOptionList[5] to eventWidgetsList,
-        mainViewOptionList[6] to productionWidgetsList,
-        mainViewOptionList[7] to calendarWidgetsList,
-        mainViewOptionList[8] to systemWidgetsList,
-    )
+    private val mainViewWidgetsListMap: Map<String, WidgetsList> =
+        mainViewOptionList.map { Pair(it, WidgetsList()) }.toMap()
 
     var itemCountTextViewMap: MutableMap<String, TextView> = mutableMapOf()
 
@@ -85,8 +65,6 @@ class StartGameActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setVariablesWithIntent()
-
-        setStartGameButtonOnClickListener()
 
         // 这些xxFillMainView只在初始化调用一次
         mapFillMainView()
@@ -112,15 +90,17 @@ class StartGameActivity : AppCompatActivity() {
                 textSize = 15F
             )
 
-            calendarWidgetsList.widgetsList.add(calendarTextView)
-            calendarWidgetsList.widgetsList.add(seasonInformationTextView)
+            mainViewWidgetsListMap["日历"]!!.widgetsList.run {
+                add(calendarTextView)
+                add(seasonInformationTextView)
+            }
 
             binding.startGameMainLayout.addView(calendarTextView)
             binding.startGameMainLayout.addView(seasonInformationTextView)
         }
     }
 
-    fun updateCalendarTextView(){
+    fun updateCalendarTextView() {
         calendarTextView.text = formatGameCalendarToTime(gameCalendar)
         seasonInformationTextView.text = gameCalendar.season.information
 
@@ -129,8 +109,7 @@ class StartGameActivity : AppCompatActivity() {
 
     private fun setVariablesWithIntent() {
         // 从CreatePlayerActivity和SelectSaveActivity获取Intent
-        val bundle = this@StartGameActivity.intent.extras
-        bundle?.let {
+        this@StartGameActivity.intent.extras?.let { bundle ->
             val map = bundle.get("item") as TransmissionMap
             itemCountMap = map.map
 
@@ -140,55 +119,22 @@ class StartGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun setStartGameButtonOnClickListener() {
-        // 目的是设置mainViewOptionListIndex
-        binding.startGameTravelLogButton.setOnClickListener {
-            val mainViewOptionListIndex = 0
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameItemButton.setOnClickListener {
-            val mainViewOptionListIndex = 1
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameMapButton.setOnClickListener {
-            val mainViewOptionListIndex = 2
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameTravelListButton.setOnClickListener {
-            val mainViewOptionListIndex = 3
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGamePlayerButton.setOnClickListener {
-            val mainViewOptionListIndex = 4
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameEventButton.setOnClickListener {
-            val mainViewOptionListIndex = 5
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameProductionButton.setOnClickListener {
-            val mainViewOptionListIndex = 6
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameCalenderButton.setOnClickListener {
-            val mainViewOptionListIndex = 7
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-        binding.startGameSystemButton.setOnClickListener {
-            val mainViewOptionListIndex = 8
-            this.menuButtonOnClick(mainViewOptionListIndex)
-        }
-    }
-
-    private fun menuButtonOnClick(mainViewOptionListIndex: Int) {
-        // 选单按钮点击事件
-        val option = mainViewOptionList[mainViewOptionListIndex]
-        // option 获取一个字符串用于和当前选择视图字符串比对
+    private fun menuButtonOnClick(option: String) {
         if (mainViewOptionCurrent != option) {
-            mainViewWidgetsListMap[option]?.changeMainViewContent(binding.startGameMainLayout)
+            mainViewWidgetsListMap[option]!!.changeMainViewContent(binding.startGameMainLayout)
             mainViewOptionCurrent = option
         }
     }
+
+    fun showTravelLog(view: View) = menuButtonOnClick("日志")
+    fun showItem(view: View) = menuButtonOnClick("物品")
+    fun showMap(view: View) = menuButtonOnClick("地图")
+    fun showTravelList(view: View) = menuButtonOnClick("队列")
+    fun showPlayer(view: View) = menuButtonOnClick("人物")
+    fun showEvent(view: View) = menuButtonOnClick("事件")
+    fun showProduction(view: View) = menuButtonOnClick("合成")
+    fun showCalendar(view: View) = menuButtonOnClick("日历")
+    fun showSystem(view: View) = menuButtonOnClick("系统")
 
     private fun playerFillMainView() {
         // 创建player视图组件
@@ -219,9 +165,11 @@ class StartGameActivity : AppCompatActivity() {
                 textSize = 30F
             )
 
-            playerWidgetsList.widgetsList.add(playerNameTextView)
-            playerWidgetsList.widgetsList.add(playerSexTextView)
-            playerWidgetsList.widgetsList.add(playerStatusTextView)
+            mainViewWidgetsListMap["人物"]!!.widgetsList.run {
+                add(playerNameTextView)
+                add(playerSexTextView)
+                add(playerStatusTextView)
+            }
 
             playerViewList.add(playerNameTextView)
             playerViewList.add(playerSexTextView)
@@ -344,7 +292,7 @@ class StartGameActivity : AppCompatActivity() {
 
             // 注意这里
             // 因为这个widgetList添加后点击自动Visible, 而baseLayout等组件默认收缩, 所以不要添加进去
-            mapWidgetsList.widgetsList.add(mapButton)
+            mainViewWidgetsListMap["地图"]!!.widgetsList.add(mapButton)
         }
     }
 
@@ -421,9 +369,11 @@ class StartGameActivity : AppCompatActivity() {
             linearLayout.addView(itemTextView)
             linearLayout.addView(itemCountTextView)
 
-            itemWidgetsList.widgetsList.add(linearLayout)
-            itemWidgetsList.widgetsList.add(itemTextView)
-            itemWidgetsList.widgetsList.add(itemCountTextView)
+            mainViewWidgetsListMap["物品"]!!.widgetsList.run {
+                add(linearLayout)
+                add(itemTextView)
+                add(itemCountTextView)
+            }
 
             itemCountTextViewMap[key.name] = itemCountTextView
 
@@ -432,7 +382,7 @@ class StartGameActivity : AppCompatActivity() {
             binding.startGameMainLayout.addView(linearLayout)
             binding.startGameMainLayout.addView(baseLayout)
 
-            if (atBottom){
+            if (atBottom) {
                 scrollViewToBottom()
             }
         }
@@ -472,7 +422,7 @@ class StartGameActivity : AppCompatActivity() {
 
             travelListButtonList.add(travelButton)
 
-            travelListWidgetsList.widgetsList.add(travelButton)
+            mainViewWidgetsListMap["队列"]!!.widgetsList.add(travelButton)
             binding.startGameMainLayout.addView(travelButton)
         }
     }
@@ -506,9 +456,9 @@ class StartGameActivity : AppCompatActivity() {
 
             binding.startGameMainLayout.addView(travelTextView)
 
-            travelLogWidgetsList.widgetsList.add(travelTextView)
+            mainViewWidgetsListMap["日志"]!!.widgetsList.add(travelTextView)
 
-            if (atBottom){
+            if (atBottom) {
                 scrollViewToBottom()
             }
         }
@@ -532,9 +482,9 @@ class StartGameActivity : AppCompatActivity() {
 
             binding.startGameMainLayout.addView(travelTextView)
 
-            travelLogWidgetsList.widgetsList.add(travelTextView)
+            mainViewWidgetsListMap["日志"]!!.widgetsList.add(travelTextView)
 
-            if (atBottom){
+            if (atBottom) {
                 scrollViewToBottom()
             }
         }
@@ -551,7 +501,7 @@ class StartGameActivity : AppCompatActivity() {
         travel.travelList.removeAt(index)
 
         travelListButtonList.removeAt(index)
-        travelListWidgetsList.widgetsList.removeAt(index)
+        mainViewWidgetsListMap["队列"]!!.widgetsList.removeAt(index)
 
         for (i in index until travelListButtonList.size) {
             travelListButtonList[i].index--
@@ -567,15 +517,15 @@ class StartGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun judgeScrollToBottom(): Boolean{
+    private fun judgeScrollToBottom(): Boolean {
         // 返回是否滑到最底部
-        val scrollView:ScrollView =binding.startGameScrollView
+        val scrollView: ScrollView = binding.startGameScrollView
         return scrollView.scrollY + scrollView.height >= binding.startGameMainLayout.measuredHeight
     }
 
-    private fun scrollViewToBottom(){
+    private fun scrollViewToBottom() {
         val handler = Handler(Looper.getMainLooper())
-        val scrollView:ScrollView =binding.startGameScrollView
+        val scrollView: ScrollView = binding.startGameScrollView
 
         handler.postDelayed({
             scrollView.smoothScrollTo(
@@ -589,6 +539,7 @@ class StartGameActivity : AppCompatActivity() {
 // 这玩意写这里可以被import, 当全局变量用了, 主要Area类上下文传不进去, 只能这么用.
 // 反序列化生成的对象与原对象并不相同
 var player: Player = Player("debug", "debug")
+
 // string是CustomItem.name
 var itemCountMap: MutableMap<String, Int> = mutableMapOf()
 

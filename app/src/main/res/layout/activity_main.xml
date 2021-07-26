@@ -35,23 +35,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
+                android:onClick="start"
                 android:text="@string/mainStartButtonText" />
 
             <Button
                 android:id="@+id/mainContinueButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_marginTop="10dp"
+                android:layout_weight="2"
+                android:onClick="load"
                 android:text="@string/mainContinueButtonText" />
 
             <Button
                 android:id="@+id/mainExitButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="2"
+                android:onClick="exit"
                 android:text="@string/mainExitButtonText" />
 
             <Space
