@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import com.example.idletravel.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
 
@@ -13,20 +14,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this@MainActivity))
         setContentView(binding.root)
+    }
 
-        binding.mainStartButton.setOnClickListener{
-            val intent = Intent()
-            intent.setClass(this@MainActivity,CreatePlayerActivity::class.java)
-            startActivity(intent)
-        }
+    fun start(view: View) {
+        val intent = Intent()
+        intent.setClass(this@MainActivity,CreatePlayerActivity::class.java)
+        startActivity(intent)
+    }
 
-        binding.mainContinueButton.setOnClickListener {
-            //TODO: 他妈反正你得写个读档操作
-        }
+    fun load(view: View) {
+        //TODO: 他妈反正你得写个读档操作
+    }
 
-        binding.mainExitButton.setOnClickListener {
-            exitProcess(0)
-        }
+    fun exit(view: View) {
+        exitProcess(0)
     }
 }
 
